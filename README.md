@@ -41,7 +41,7 @@
 
 ## 架构
 
-gala-ops具备4个组件（gala-gopher、gala-spider、gala-anteater、gala-inference），可以选择集群部署模式、单机部署模式。
+gala-ops具备四个组件（gala-gopher、gala-spider、gala-anteater、gala-inference），可以选择集群部署模式、单机部署模式。
 
 集群模式下，需要部署全部组件；单机模式可以只部署gala-gopher。
 
@@ -49,31 +49,94 @@ gala-ops具备4个组件（gala-gopher、gala-spider、gala-anteater、gala-infe
 
 ![](./csp_arch.png)
 
+## gala-ops系统集成
+
+集群部署模式下，gala-ops四个组件需要协同起来工作，主要依赖kafka、arangodb等软件。下图是系统集成关系图，通常将gala-gopher部署于生产环境中，其他组件（包括kafka、prometheus、arangodb等中间件）部署于管理面，用户需要确保管理面内几个组件与中间件能够互通。
+
+gala-gopher与管理面可能无法直接互通，为此gala-gopher也提供多种[被集成方式](https://gitee.com/openeuler/gala-docs/blob/master/README.md "被集成方式")。
+
+![](./system_integration.png)
+
 ## gala-gopher
 
 ### 定位
 
-作为gala-ops系统的数据采集器，提供应用粒度low-level的数据采集，包括网络、磁盘I/O、调度、内存、安全等方面的系统指标采集，同时负责应用KPI数据的采集。
+- **数据采集器**：提供应用粒度low-level的数据采集，包括网络、磁盘I/O、调度、内存、安全等方面的系统指标采集，同时负责应用KPI数据的采集。
+- **系统异常检测**：提供系统异常检测能力，覆盖网络、磁盘I/O、调度、内存等方面的场景系统异常，用户可以通过阈值设置异常上下限范围。
+- **性能热点分析**：提供on-cpu、off-cpu火焰图。
 
 ### 原理及术语
 
+gala-gopher软件架构参考[这里](https://gitee.com/openeuler/gala-gopher/tree/master#%E8%BF%90%E8%A1%8C%E6%9E%B6%E6%9E%84)，其是一款基于eBPF技术的低负载探针框架，除了其自身采集的数据外，用户可以自由扩展第三方探针。
+
+**术语**
+
+- **探针**：gala-gopher内执行具体数据采集任务的程序，包括native、extend 2类探针，前者以线程方式单独启动数据采集任务，后者以子进程方式启动数据采集任务。gala-gopher可以通过配置修改的方式启动部分或全部探针。
+- **观测实体（entity_name）**：用来定义系统内的观测对象，所有探针采集的数据均会归属到具体的某个观测实体。每种观测实体均有key、label、metrics组成，比如tcp_link观测实体的key包括进程号、IP五元组、协议族等信息，metrics则包括tx、rx、rtt等运行状态指标。
+- **数据表（table_name）**：观测实体由1张或更多数据表组合而成，通常1张数据表由1个采集任务完成，由此可知单个观测实体可以由多个采集任务共同完成。
+- **meta文件**：通过文件定义观测实体（包括内部的数据表），系统内meta文件必须保证唯一，定义不可冲突。规范参考[这里](https://gitee.com/openeuler/gala-gopher/blob/master/doc/how_to_add_probe.md#122-%E5%AE%9A%E4%B9%89%E6%8E%A2%E9%92%88%E7%9A%84meta%E6%96%87%E4%BB%B6)。
+
 ### 支持的技术
 
-### 安装方式
+参考这里
 
+### 安装及使用
 
+参考[这里](https://gitee.com/openeuler/gala-gopher#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B)
 
 ### 被集成方式
+
+- **metrics集成方式**
+
+  **prometheus exporter方式**：用户根据gala-gopher配置文件[手册](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#metric)，设置metrics成web上报方式，以及上报[通道](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#webserver%E9%85%8D%E7%BD%AE)设置，gala-gopher就会以prometheus exporter方式工作，被动响应metrics数据GET请求。
+
+  **kafka client方式**：用户根据gala-gopher配置文件[手册](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#metric)，设置metrics成kafka上报方式，以及上报[通道](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#kafka%E9%85%8D%E7%BD%AE)设置，gala-gopher就会以kafka client方式工作，周期性上报metrics。用户需将metrics数据转移至prometheus内。
+
+- **event集成方式**
+
+  **logs方式**：用户根据gala-gopher配置文件[手册](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#event)，设置event成logs上报方式，以及上报[通道](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#logs%E9%85%8D%E7%BD%AE)设置，gala-gopher就会以logs方式工作，将event以日志形式写入设定目录。用户可以通过读取该目录文件，获取gala-gopher上报的event信息并上送至kafka通道内。
+
+  **kafka client方式**：用户根据gala-gopher配置文件[手册](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#event)，设置event成kafka上报方式，以及上报[通道](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#kafka%E9%85%8D%E7%BD%AE)设置，gala-gopher就会以kafka client方式工作，周期性上报event。
+
+- **meta文件集成方式**
+
+  **logs方式**：用户根据gala-gopher配置文件[手册](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#meta)，设置meta成logs上报方式，以及上报[通道](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#logs%E9%85%8D%E7%BD%AE)设置，gala-gopher就会以logs方式工作，将gala-gopher集成的所有meta文件以日志形式写入设定目录。用户需要将meta信息上送至kafka通道内。
+
+  **kafka client方式**：用户根据gala-gopher配置文件[手册](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#meta)，设置event成kafka上报方式，以及上报[通道](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#kafka%E9%85%8D%E7%BD%AE)设置，gala-gopher就会以kafka client方式工作，周期性上报meta信息。
 
 ### 扩展探针
 
 
 
+
+
 ## gala-spider
+
+定位
+
+原理及术语
+
+支持的技术
+
+安装及使用
+
+扩展观测实体及关系
 
 ## gala-anteater
 
+定位
+
+原理及术语
+
+安装及使用
+
 ## gala-inference
+
+定位
+
+原理及术语
+
+安装及使用
 
 
 
@@ -81,9 +144,11 @@ gala-ops具备4个组件（gala-gopher、gala-spider、gala-anteater、gala-infe
 
 ## 架构感知
 
-gala-ops将系统观测白盒化，通过定义系统观测实体类型以及类型间的关系，完成水平、垂直方向的拓扑结构。
+​	gala-ops将系统观测白盒化，通过定义系统观测实体以及实体间的关系，完成水平、垂直方向的拓扑结构。水平拓扑是基于进程之间的TCP/IP通信链路计算得出，可以实时呈现系统集群业务流状态；垂直拓扑是基于系统领域知识计算得出，可以实时呈现软件运行上下文状态。
 
-### 支持的实体类型
+### 观测实体
+
+水平、垂直拓扑内展现出系统内所有观测实体，gala-ops支持的观测实体范围如下：
 
 主机（host）
 
@@ -207,21 +272,62 @@ gala-ops将系统观测白盒化，通过定义系统观测实体类型以及类
 
 通过选择水平拓扑内的对象（比如上图中应用实例、进程实例或Node实例）可以从不同对象实例视角观察垂直拓扑。
 
-下面从左至右分别给出应用实例、进程实例、Node实例视角的垂直拓扑效果。
-
-![](./vertical_topology.png)
+下面从左至右分别给出应用实例、进程实例、Node实例视角的垂直拓扑效果。![](./vertical_topology.png)
 
 垂直拓扑API：？
 
 
 
+另外，为了让水平、垂直拓扑视图可以自由切换，垂直拓扑视图内可以选择任意应用实例、进程实例、Node实例跳转至水平拓扑。相应的API如下：？
+
+
+
 ## 异常检测
 
-gala-ops具备2种异常检测能力：系统异常（也叫系统隐患）、应用KPI异常。前者覆盖网络、磁盘I/O、调度、内存、文件系统等各类系统异常场景；后者包括常见应用时延KPI异常（包括redis、HTTP(S)、PG等），并且用户可以根据自身场景扩展KPI范围（要求KPI数据符合时序数据规范）。
+gala-ops具备2种异常检测能力：系统异常（也叫系统隐患）、应用异常。前者覆盖网络、磁盘I/O、调度、内存、文件系统等各类系统异常场景；后者包括常见应用时延KPI异常（包括redis、HTTP(S)、PG等），并且用户可以根据自身场景扩展KPI范围（要求KPI数据符合时序数据规范）。
 
 异常检测结果会标识出具体的观测实体，以及异常原因。用户可以通过kafka topic获取系统实时异常信息。通过例子我们解读下异常结果信息：
 
+```
+{
+  "Timestamp": 1586960586000000000,		// 异常事件时间戳
+  "event_id": "1586xxx_xxxx"			// 异常事件ID
+  "Attributes": {
+    "entity_id": "xx",					// 发生异常的观测实体ID（集群内唯一）
+    "event_id": "1586xxx_xxxx",			// 异常事件ID（同上）
+    "event_type": "sys",				// 异常事件类型（sys: 系统异常，app：应用异常）
+    "data": [....],     // optional
+    "duration": 30,     // optional
+    "occurred count": 6,// optional
+  },
+  "Resource": {
+    "metrics": "gala_gopher_block_count_iscsi_err",	// 产生异常的metrics
+  },
+  "SeverityText": "WARN",				// 异常级别
+  "SeverityNumber": 13,					// 异常级别编号
+  "Body": "20200415T072306-0700 WARN Entity(xx)  Iscsi errors(2) occured on Block(sda1, disk sda)."								// 异常事件描述
+}
+```
+
+
+
+用户通过kafka订阅到异常事件后，可以表格化管理，以时间段形式呈现管理，如下：
+
+| 时间              | 异常事件ID   | 观测实体ID | Metrics                           | 描述                                                         |
+| ----------------- | ------------ | ---------- | --------------------------------- | ------------------------------------------------------------ |
+| 11:23:54 CST 2022 | 1586xxx_xxxx | xxx_xxxx   | gala_gopher_block_count_iscsi_err | 20200415T072306-0700 WARN Entity(xx)  Iscsi errors(2) occured on Block(sda1, disk sda). |
+
+**注意**：一定时间段范围内，同一个观测实体可能会报重复上报相同异常（但事件ID不同）。所以需要基于**观测实体ID + Metrics** 去重处理。
+
+为了更好的展示异常事件所处集群系统的位置，用户可以通过异常表格内的观测实体ID跳转至垂直拓扑视图，举例如下：
+
+![](./host_hrchitecture.png)
+
 ## 根因定位
+
+
+
+
 
 
 
@@ -249,6 +355,6 @@ gala-ops具备2种异常检测能力：系统异常（也叫系统隐患）、�
 
 
 
-# 客户案例
+# 用户案例
 
 # 合作厂商
