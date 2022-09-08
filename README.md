@@ -53,7 +53,7 @@ gala-ops具备四个组件（gala-gopher、gala-spider、gala-anteater、gala-in
 
 集群部署模式下，gala-ops四个组件需要协同起来工作，主要依赖kafka、arangodb等软件。下图是系统集成关系图，通常将gala-gopher部署于生产环境中，其他组件（包括kafka、prometheus、arangodb等中间件）部署于管理面，用户需要确保管理面内几个组件与中间件能够互通。
 
-gala-gopher与管理面可能无法直接互通，为此gala-gopher也提供多种[被集成方式](https://gitee.com/openeuler/gala-docs/blob/master/README.md "被集成方式")。
+gala-gopher与管理面可能无法直接互通，为此gala-gopher也提供多种<a href="https://gitee.com/MrRlu/gala-docs/blob/master/README.md" title="被集成方式">被集成方式</a>。
 
 ![](./system_integration.png)
 
