@@ -112,15 +112,23 @@ gala-gopher软件架构参考[这里](https://gitee.com/openeuler/gala-gopher/tr
 
 ## gala-spider
 
-定位
+### 定位
 
-原理及术语
+- **拓扑图构建**：提供 OS 级别的拓扑图构建功能，它将定期获取从 gala-gopher 采集的所有观测对象实例的数据，并计算它们之间的拓扑关系，最终将生成的拓扑图保存到图数据库 arangodb 中。
 
-支持的技术
+### 原理及术语
 
-安装及使用
+参考[这里](https://gitee.com/openeuler/gala-spider/blob/master/docs/devel/zh-CN/spider_design.md)。
 
-扩展观测实体及关系
+### 支持的技术
+
+### 安装及使用
+
+参考[这里](https://gitee.com/openeuler/gala-spider/blob/master/README.md)。
+
+### 扩展观测实体及关系
+
+参考[这里](https://gitee.com/openeuler/gala-spider/blob/master/docs/devel/zh-CN/how_to_add_new_observe_object.md)。
 
 ## gala-anteater
 
@@ -132,13 +140,17 @@ gala-gopher软件架构参考[这里](https://gitee.com/openeuler/gala-gopher/tr
 
 ## gala-inference
 
-定位
+### 定位
 
-原理及术语
+- **根因定位**：提供异常 KPI 的根因定位能力，它基于异常检测的结果和拓扑图作为输入，并将根因定位的结果输出到 kafka 中。
 
-安装及使用
+### 原理及术语
 
+参考[这里](https://gitee.com/openeuler/gala-spider/blob/master/docs/devel/zh-CN/infer-design.md)。
 
+### 安装及使用
+
+参考[这里](https://gitee.com/openeuler/gala-spider/blob/master/README.md)。
 
 # 场景介绍
 
