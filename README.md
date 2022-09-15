@@ -25,15 +25,11 @@
 
 # 为什么选择gala-ops
 
-## 如何让用户摆脱运维工具的“七国八制”
-
-## 如何让用户打破IT部门之间“运维部门墙”
-
-## 如何让用户实现监控无盲区
-
-## 如何为用户提供基础设施故障定位能力
-
-## 如何为用户提供生产环境性能热点分析能力
+1. 如何让用户摆脱运维工具的“七国八制”
+2. 如何让用户打破IT部门之间“运维部门墙”
+3. 如何让用户实现监控无盲区
+4. 如何为用户具备基础设施故障定位能力
+5. 如何为用户具备生产环境性能热点分析能力
 
 
 
@@ -72,13 +68,15 @@ gala-gopher软件架构参考[这里](https://gitee.com/openeuler/gala-gopher/tr
 **术语**
 
 - **探针**：gala-gopher内执行具体数据采集任务的程序，包括native、extend 2类探针，前者以线程方式单独启动数据采集任务，后者以子进程方式启动数据采集任务。gala-gopher可以通过配置修改的方式启动部分或全部探针。
-- **观测实体（entity_name）**：用来定义系统内的观测对象，所有探针采集的数据均会归属到具体的某个观测实体。每种观测实体均有key、label、metrics组成，比如tcp_link观测实体的key包括进程号、IP五元组、协议族等信息，metrics则包括tx、rx、rtt等运行状态指标。
+- **观测实体（entity_name）**：用来定义系统内的观测对象，所有探针采集的数据均会归属到具体的某个观测实体。每种观测实体均有key、label（可选）、metrics组成，比如tcp_link观测实体的key包括进程号、IP五元组、协议族等信息，metrics则包括tx、rx、rtt等运行状态指标。除原生支持的[观测实体](https://gitee.com/openeuler/gala-docs#%E8%A7%82%E6%B5%8B%E5%AE%9E%E4%BD%93)，gala-gopher也可以扩展观测实体。
 - **数据表（table_name）**：观测实体由1张或更多数据表组合而成，通常1张数据表由1个采集任务完成，由此可知单个观测实体可以由多个采集任务共同完成。
 - **meta文件**：通过文件定义观测实体（包括内部的数据表），系统内meta文件必须保证唯一，定义不可冲突。规范参考[这里](https://gitee.com/openeuler/gala-gopher/blob/master/doc/how_to_add_probe.md#122-%E5%AE%9A%E4%B9%89%E6%8E%A2%E9%92%88%E7%9A%84meta%E6%96%87%E4%BB%B6)。
 
 ### 支持的技术
 
-参考[这里](https://gitee.com/openeuler/gala-docs/blob/master/gopher_tech.md)
+采集范围：参考[这里](https://gitee.com/openeuler/gala-docs/blob/master/gopher_tech.md)。
+
+系统异常范围：参考[这里](https://gitee.com/openeuler/gala-docs/blob/master/gopher_tech_abnormal.md)。
 
 ### 安装及使用
 
@@ -104,11 +102,19 @@ gala-gopher软件架构参考[这里](https://gitee.com/openeuler/gala-gopher/tr
 
   **kafka client方式**：用户根据gala-gopher配置文件[手册](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#meta)，设置event成kafka上报方式，以及上报[通道](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#kafka%E9%85%8D%E7%BD%AE)设置，gala-gopher就会以kafka client方式工作，周期性上报meta信息。
 
-### 扩展探针
+### 扩展数据采集范围
 
+用户如果希望扩展数据采集范围，只需执行2步：定义观测实体，集成数据探针。
 
+- **定义观测实体**
 
+通过定义观测实体（或者更新原观测实体）用于承载新增采集metrics数据。用户通过meta文件（规范参考[这里](https://gitee.com/openeuler/gala-gopher/blob/master/doc/how_to_add_probe.md#122-%E5%AE%9A%E4%B9%89%E6%8E%A2%E9%92%88%E7%9A%84meta%E6%96%87%E4%BB%B6)）定义观测实体的key、label（可选）、metrics，定义完成后，将meta文件归档在[探针目录](https://gitee.com/openeuler/gala-gopher/blob/master/doc/how_to_add_probe.md#23-%E5%AE%9A%E4%B9%89%E6%8E%A2%E9%92%88%E7%9B%AE%E5%BD%95)。
 
+- **集成数据探针**
+
+用户可以通过各种编程语言（shell、python、java等）包装数据采集软件，并在脚本中按照meta文件定义[格式](https://gitee.com/openeuler/gala-gopher/blob/master/doc/how_to_add_probe.md#123-%E8%BE%93%E5%87%BA%E6%8E%A2%E9%92%88%E6%8C%87%E6%A0%87)将采集到的数据通过linux管道符形式输出。
+
+参考：[cAdvisor](https://gitee.com/openeuler/gala-gopher/tree/master/src/probes/extends/python.probe/cadvisor.probe)第三方探针集成案例。
 
 ## gala-spider
 
@@ -494,19 +500,13 @@ gala-ops针对应用异常，具备2种根因定位能力：**单节点、跨节
 
 # 常见问题
 
-
-
-## 生产环境采集的数据无法送至管理面？
-
-## 如何新增数据采集范围？
-
-## 如何新增应用场景？
-
-## 支持哪些OS？
-
-## 支持哪些内核版本？
-
-## 全栈热点分析调用栈为什么不能准确显示函数名？
+1. 生产环境采集的数据无法送至管理面？
+2. 如何新增数据采集范围？
+3. 如何新增应用场景？
+4. 支持哪些OS
+5. 支持哪些内核版本
+6. 支持的软件版本范围
+7. 全栈热点分析调用栈为什么不能准确显示函数名？
 
 # 常用API介绍
 
