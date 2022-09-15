@@ -111,72 +111,73 @@
 | bio_err_count   | thread     | Gauge        |       |      | task发起的bio结果失败的次数                                  |
 | hang_count      | thread     | Gauge        |       |      | task发生io   hang次数                                        |
 
-# Process
+# Process（entity_name：proc）
 
-| metrics_name               | table_name         | metrics_type | unit | KPI  | metrics description                                          |
-| -------------------------- | ------------------ | ------------ | ---- | ---- | ------------------------------------------------------------ |
-| tgid                       |                    | key          |      |      | 进程ID                                                       |
-| ppid                       | system_proc        | label        |      |      | 父进程ID                                                     |
-| comm                       | system_proc        | label        |      |      | 执行程序名称                                                 |
-| cmdline                    | system_proc        | label        |      |      | 执行程序命令(包括配置)                                       |
-| container id               | system_proc        | label        |      |      | 进程归属的容器实例ID（简写）                                 |
-| proc_shared_dirty_size     | system_proc        | Gauge        |      |      | 进程共享属性的dirty   page size                              |
-| proc_shared_clean_size     | system_proc        | Gauge        |      |      | 进程共享属性的clean   page size                              |
-| proc_private_dirty_size    | system_proc        | Gauge        |      |      | 进程私有属性的dirty   page size                              |
-| proc_private_clean_size    | system_proc        | Gauge        |      |      | 进程私有属性的clean   page size                              |
-| proc_referenced_size       | system_proc        | Gauge        |      |      | 进程当前已引用的page   size                                  |
-| proc_lazyfree_size         | system_proc        | Gauge        |      |      | 进程延迟释放内存的size                                       |
-| proc_swap_data_size        | system_proc        | Gauge        |      |      | 进程swap区间数据size                                         |
-| proc_swap_data_pss_size    | system_proc        | Gauge        |      |      | 进程物理内存swap区间数据size                                 |
-| fd_count                   | system_proc        | Gauge        |      | Y    | 进程文件句柄                                                 |
-| fd_free_per                | system_proc        | Gauge        |      |      | 进程剩余FD资源占比%                                          |
-| proc_utime_jiffies         | system_proc        | Gauge        |      | Y    | 进程用户运行时间                                             |
-| proc_stime_jiffies         | system_proc        | Gauge        |      | Y    | 进程系统态运行时间                                           |
-| proc_minor pagefault_count | system_proc        | Gauge        |      |      | 进程轻微pagefault次数（无需从磁盘拷贝）                      |
-| proc_major pagefault_count | system_proc        | Gauge        |      |      | 进程严重pagefault次数（需从磁盘拷贝）                        |
-| proc_vm_size               | system_proc        | Gauge        |      | Y    | 进程当前虚拟地址空间大小                                     |
-| proc_pm_size               | system_proc        | Gauge        |      | Y    | 进程当前物理地址空间大小                                     |
-| proc_rchar_bytes           | system_proc        | Gauge        |      |      | 进程系统调用至FS的读字节数                                   |
-| proc_wchar_bytes           | system_proc        | Gauge        |      |      | 进程系统调用至FS的写字节数                                   |
-| proc_syscr_count           | system_proc        | Gauge        |      |      | 进程read()/pread()执行次数                                   |
-| proc_syscw_count           | system_proc        | Gauge        |      |      | 进程write()/pwrite()执行次数                                 |
-| proc_read_bytes            | system_proc        | Gauge        |      |      | 进程实际从磁盘读取的字节数                                   |
-| proc_write_bytes           | system_proc        | Gauge        |      |      | 进程实际从磁盘写入的字节数      （page cache情况下，该字段进表示设置dirty page的size） |
-| proc_cancelled_write_bytes | system_proc        | Gauge        |      |      | 参考proc_write_bytes，因为存在page   cache      如果write操作结束后，又发生文件被删除事件，会导致diry page并未写入磁盘，所以存在取消写的字节数统计 |
-| ns_ext4_read               | proc_ext4          | Gauge        | ns   |      | ext4文件系统读操作时间，单位ns                               |
-| ns_ext4_write              | proc_ext4          | Gauge        | ns   |      | ext4文件系统写操作时间，单位ns                               |
-| ns_ext4_flush              | proc_ext4          | Gauge        | ns   |      | ext4文件系统flush操作时间，单位ns                            |
-| ns_ext4_open               | proc_ext4          | Gauge        | ns   |      | ext4文件系统open操作时间，单位ns                             |
-| ns_overlay_read            | proc_overlay       | Gauge        | ns   |      | overlayfs文件系统读操作时间，单位ns                          |
-| ns_overlay_write           | proc_overlay       | Gauge        | ns   |      | overlayfs文件系统写操作时间，单位ns                          |
-| ns_overlay_flush           | proc_overlay       | Gauge        | ns   |      | overlayfs文件系统flush操作时间，单位ns                       |
-| ns_overlay_open            | proc_overlay       | Gauge        | ns   |      | overlayfs文件系统open操作时间，单位ns                        |
-| ns_tmpfs_read              | proc_tmpfs         | Gauge        | ns   |      | tmpfs文件系统读操作时间，单位ns                              |
-| ns_tmpfs_write             | proc_tmpfs         | Gauge        | ns   |      | tmpfs文件系统写操作时间，单位ns                              |
-| ns_tmpfs_flush             | proc_tmpfs         | Gauge        | ns   |      | tmpfs文件系统flush操作时间，单位ns                           |
-| reclaim_ns                 | proc_page          | Gauge        | ns   |      | 进程触发的page回收时间（执行SWAP操作），单位ns               |
-| access_pagecache           | proc_page          | Gauge        |      |      | 进程触发的页面访问次数                                       |
-| mark_buffer_dirty          | proc_page          | Gauge        |      |      | 进程触发的   page buffer置脏次数                             |
-| load_page_cache            | proc_page          | Gauge        |      |      | 进程触发的   page 加入page cache次数                         |
-| mark_page_dirty            | proc_page          | Gauge        |      |      | 进程触发的   page 置脏次数                                   |
-| ns_gethostname             | proc_dns           | Gauge        | ns   |      | 进程获取DNS域名对应的地址，单位ns                            |
-| gethostname_failed         | proc_dns           | Gauge        |      |      | 进程获取DNS域名失败次数                                      |
-| ns_mount                   | proc_syscall_io    | Gauge        | ns   |      | 进程系统调用mount时长，单位ns                                |
-| ns_umount                  | proc_syscall_io    | Gauge        | ns   |      | 进程系统调用umount时长，单位ns                               |
-| ns_read                    | proc_syscall_io    | Gauge        | ns   |      | 进程系统调用read时长，单位ns                                 |
-| ns_write                   | proc_syscall_io    | Gauge        | ns   |      | 进程系统调用write时长，单位ns                                |
-| ns_sendmsg                 | proc_syscall_net   | Gauge        | ns   |      | 进程系统调用sendmsg时长，单位ns                              |
-| ns_recvmsg                 | proc_syscall_net   | Gauge        | ns   |      | 进程系统调用recvmsg时长，单位ns                              |
-| ns_sched_yield             | proc_syscall_sched | Gauge        | ns   |      | 进程系统调用sched_yield时长，单位ns                          |
-| ns_futex                   | proc_syscall_sched | Gauge        | ns   |      | 进程系统调用futex时长，单位ns                                |
-| ns_epoll_wait              | proc_syscall_sched | Gauge        | ns   |      | 进程系统调用epoll_wait时长，单位ns                           |
-| ns_epoll_pwait             | proc_syscall_sched | Gauge        | ns   |      | 进程系统调用epoll_pwait时长，单位ns                          |
-| ns_fork                    | proc_syscall_fork  | Gauge        | ns   |      | 进程系统调用fork时长，单位ns                                 |
-| ns_vfork                   | proc_syscall_fork  | Gauge        | ns   |      | 进程系统调用vfork时长，单位ns                                |
-| ns_clone                   | proc_syscall_fork  | Gauge        | ns   |      | 进程系统调用clone时长，单位ns                                |
-| syscall_failed             | proc_syscall       | Gauge        |      | Y    | 进程系统调用失败次数                                         |
-|                            |                    |              |      |      |                                                              |
-|                            |                    |              |      |      |                                                              |
+| metrics_name          | table_name         | metrics_type | unit | KPI  | metrics description                                          |
+| --------------------- | ------------------ | ------------ | ---- | ---- | ------------------------------------------------------------ |
+| tgid                  |                    | key          |      |      | 进程ID                                                       |
+| ppid                  | system_proc        | label        |      |      | 父进程ID                                                     |
+| pgid                  | system_proc        | label        |      |      | 进程组ID                                                     |
+| comm                  |                    | label        |      |      | 执行程序名称                                                 |
+| cmdline               | system_proc        | label        |      |      | 执行程序命令(包括配置)                                       |
+| container_id          | system_proc        | label        |      |      | 进程归属的容器实例ID（简写）                                 |
+| shared_dirty_size     | system_proc        | Gauge        |      |      | 进程共享属性的dirty   page size                              |
+| shared_clean_size     | system_proc        | Gauge        |      |      | 进程共享属性的clean   page size                              |
+| private_dirty_size    | system_proc        | Gauge        |      |      | 进程私有属性的dirty   page size                              |
+| private_clean_size    | system_proc        | Gauge        |      |      | 进程私有属性的clean   page size                              |
+| referenced_size       | system_proc        | Gauge        |      |      | 进程当前已引用的page   size                                  |
+| lazyfree_size         | system_proc        | Gauge        |      |      | 进程延迟释放内存的size                                       |
+| swap_data_size        | system_proc        | Gauge        |      |      | 进程swap区间数据size                                         |
+| swap_data_pss_size    | system_proc        | Gauge        |      |      | 进程物理内存swap区间数据size                                 |
+| fd_count              | system_proc        | Gauge        |      | Y    | 进程文件句柄                                                 |
+| fd_free_per           | system_proc        | Gauge        |      |      | 进程剩余FD资源占比%                                          |
+| utime_jiffies         | system_proc        | Gauge        |      | Y    | 进程用户运行时间                                             |
+| stime_jiffies         | system_proc        | Gauge        |      | Y    | 进程系统态运行时间                                           |
+| minor pagefault_count | system_proc        | Gauge        |      |      | 进程轻微pagefault次数（无需从磁盘拷贝）                      |
+| major pagefault_count | system_proc        | Gauge        |      |      | 进程严重pagefault次数（需从磁盘拷贝）                        |
+| vm_size               | system_proc        | Gauge        |      | Y    | 进程当前虚拟地址空间大小                                     |
+| pm_size               | system_proc        | Gauge        |      | Y    | 进程当前物理地址空间大小                                     |
+| rchar_bytes           | system_proc        | Gauge        |      |      | 进程系统调用至FS的读字节数                                   |
+| wchar_bytes           | system_proc        | Gauge        |      |      | 进程系统调用至FS的写字节数                                   |
+| syscr_count           | system_proc        | Gauge        |      |      | 进程read()/pread()执行次数                                   |
+| syscw_count           | system_proc        | Gauge        |      |      | 进程write()/pwrite()执行次数                                 |
+| read_bytes            | system_proc        | Gauge        |      |      | 进程实际从磁盘读取的字节数                                   |
+| write_bytes           | system_proc        | Gauge        |      |      | 进程实际从磁盘写入的字节数      （page cache情况下，该字段进表示设置dirty page的size） |
+| cancelled_write_bytes | system_proc        | Gauge        |      |      | 参考proc_write_bytes，因为存在page   cache      如果write操作结束后，又发生文件被删除事件，会导致diry page并未写入磁盘，所以存在取消写的字节数统计 |
+| ns_ext4_read          | proc_ext4          | Gauge        | ns   |      | ext4文件系统读操作时间，单位ns                               |
+| ns_ext4_write         | proc_ext4          | Gauge        | ns   |      | ext4文件系统写操作时间，单位ns                               |
+| ns_ext4_flush         | proc_ext4          | Gauge        | ns   |      | ext4文件系统flush操作时间，单位ns                            |
+| ns_ext4_open          | proc_ext4          | Gauge        | ns   |      | ext4文件系统open操作时间，单位ns                             |
+| ns_overlay_read       | proc_overlay       | Gauge        | ns   |      | overlayfs文件系统读操作时间，单位ns                          |
+| ns_overlay_write      | proc_overlay       | Gauge        | ns   |      | overlayfs文件系统写操作时间，单位ns                          |
+| ns_overlay_flush      | proc_overlay       | Gauge        | ns   |      | overlayfs文件系统flush操作时间，单位ns                       |
+| ns_overlay_open       | proc_overlay       | Gauge        | ns   |      | overlayfs文件系统open操作时间，单位ns                        |
+| ns_tmpfs_read         | proc_tmpfs         | Gauge        | ns   |      | tmpfs文件系统读操作时间，单位ns                              |
+| ns_tmpfs_write        | proc_tmpfs         | Gauge        | ns   |      | tmpfs文件系统写操作时间，单位ns                              |
+| ns_tmpfs_flush        | proc_tmpfs         | Gauge        | ns   |      | tmpfs文件系统flush操作时间，单位ns                           |
+| reclaim_ns            | proc_page          | Gauge        | ns   |      | 进程触发的page回收时间（执行SWAP操作），单位ns               |
+| access_pagecache      | proc_page          | Gauge        |      |      | 进程触发的页面访问次数                                       |
+| mark_buffer_dirty     | proc_page          | Gauge        |      |      | 进程触发的   page buffer置脏次数                             |
+| load_page_cache       | proc_page          | Gauge        |      |      | 进程触发的   page 加入page cache次数                         |
+| mark_page_dirty       | proc_page          | Gauge        |      |      | 进程触发的   page 置脏次数                                   |
+| ns_gethostname        | proc_dns           | Gauge        | ns   |      | 进程获取DNS域名对应的地址，单位ns                            |
+| gethostname_failed    | proc_dns           | Gauge        |      |      | 进程获取DNS域名失败次数                                      |
+| ns_mount              | proc_syscall_io    | Gauge        | ns   |      | 进程系统调用mount时长，单位ns                                |
+| ns_umount             | proc_syscall_io    | Gauge        | ns   |      | 进程系统调用umount时长，单位ns                               |
+| ns_read               | proc_syscall_io    | Gauge        | ns   |      | 进程系统调用read时长，单位ns                                 |
+| ns_write              | proc_syscall_io    | Gauge        | ns   |      | 进程系统调用write时长，单位ns                                |
+| ns_sendmsg            | proc_syscall_net   | Gauge        | ns   |      | 进程系统调用sendmsg时长，单位ns                              |
+| ns_recvmsg            | proc_syscall_net   | Gauge        | ns   |      | 进程系统调用recvmsg时长，单位ns                              |
+| ns_sched_yield        | proc_syscall_sched | Gauge        | ns   |      | 进程系统调用sched_yield时长，单位ns                          |
+| ns_futex              | proc_syscall_sched | Gauge        | ns   |      | 进程系统调用futex时长，单位ns                                |
+| ns_epoll_wait         | proc_syscall_sched | Gauge        | ns   |      | 进程系统调用epoll_wait时长，单位ns                           |
+| ns_epoll_pwait        | proc_syscall_sched | Gauge        | ns   |      | 进程系统调用epoll_pwait时长，单位ns                          |
+| ns_fork               | proc_syscall_fork  | Gauge        | ns   |      | 进程系统调用fork时长，单位ns                                 |
+| ns_vfork              | proc_syscall_fork  | Gauge        | ns   |      | 进程系统调用vfork时长，单位ns                                |
+| ns_clone              | proc_syscall_fork  | Gauge        | ns   |      | 进程系统调用clone时长，单位ns                                |
+| syscall_failed        | proc_syscall       | Gauge        |      | Y    | 进程系统调用失败次数                                         |
+|                       |                    |              |      |      |                                                              |
+|                       |                    |              |      |      |                                                              |
 
 # BLOCK
 
@@ -280,6 +281,23 @@
 | tasks_state                            | container_tasks   | Gauge        |         |      | Number   of tasks in given state (sleeping, running, stopped, uninterruptible, or   ioawaiting) |
 |                                        |                   |              |         |      |                                                              |
 
+# SLI
+
+| metrics_name | table_name    | metrics_type | unit | KPI  | metrics description              |
+| ------------ | ------------- | ------------ | ---- | ---- | -------------------------------- |
+| tgid         |               | key          |      |      | 进程ID                           |
+| ins_id       |               | key          |      |      | 实例ID                           |
+| app          |               | key          |      |      | 应用名                           |
+| method       |               | key          |      |      | 请求方法                         |
+| server_ip    |               | label        |      |      | 服务端IP                         |
+| server_port  |               | label        |      |      | 服务端端口                       |
+| client_ip    |               | label        |      |      | 客户端IP                         |
+| client_port  |               | label        |      |      | 客户端端口                       |
+| rtt_nsec     | redis_sli     | gauge        | ns   | Y    | Redis协议请求RTT                 |
+| max_rtt_nsec | redis_max_sli | gauge        | ns   | Y    | Redis协议采样周期内最大请求RTT   |
+| rtt_nsec     | pg_sli        | gauge        | ns   | Y    | Postgre协议请求RTT               |
+| max_rtt_nsec | pg_max_sli    | gauge        | ns   | Y    | Postgre协议采样周期内最大请求RTT |
+
 # DISK
 
 | metrics_name | table_name    | metrics_type | unit                  | KPI  | metrics description                     |
@@ -293,5 +311,86 @@
 | wspeed_kB    | system_iostat | gauge        | write   kbytes/second | Y    | 吞吐量                                  |
 | w_await      | system_iostat | gauge        | ms                    | Y    | 写响应时间                              |
 | wareq        | system_iostat | gauge        |                       |      | 饱和度(rareq-sz   和 wareq-sz+响应时间) |
+| aqu          | system_iostat | gauge        |                       |      | 平均队列深度                            |
 | util         | system_iostat | gauge        | %                     | Y    | 磁盘使用率                              |
 
+# NIC
+
+| metrics_name       | table_name | metrics_type | unit     | KPI  | metrics description    |
+| ------------------ | ---------- | ------------ | -------- | ---- | ---------------------- |
+| dev_name           | nic        | key          |          |      | 网卡名称               |
+| rx_bytes           | nic        | gauge        | bytes    |      | 网卡接收字节数         |
+| rx_packets         | nic        | gauge        |          |      | 网卡接收的总数据包数   |
+| rx_errs            | nic        | gauge        |          |      | 网卡接收错误的数据包数 |
+| rx_dropped         | nic        | gauge        |          |      | 网卡接收丢弃的数据包数 |
+| tx_bytes           | nic        | gauge        | bytes    |      | 网卡发送字节数         |
+| tx_packets         | nic        | gauge        |          |      | 网卡发送的总数据包数   |
+| tx_errs            | nic        | gauge        |          |      | 网卡发送错误的数据包数 |
+| tx_dropped         | nic        | gauge        |          |      | 网卡发送丢弃的数据包数 |
+| rxspeed_KB         | nic        | gauge        | Kbytes/s |      | 网卡上行速率           |
+| txspeed_KB         | nic        | gauge        | Kbytes/s |      | 网卡下行速率           |
+| tc_sent_drop       | nic        | gauge        |          |      | TC发送丢包             |
+| tc_sent_overlimits | nic        | gauge        |          |      | TC发送队列溢出         |
+| tc_backlog         | nic        | gauge        |          |      | TC backlog队列包数量   |
+| tc_ecn_mark        | nic        | gauge        |          |      | TC 拥塞标记            |
+
+# CPU
+
+| metrics_name | table_name | metrics_type | unit | KPI  | metrics description |
+| ------------ | ---------- | ------------ | ---- | ---- | ------------------- |
+|              |            |              |      |      |                     |
+|              |            |              |      |      |                     |
+|              |            |              |      |      |                     |
+|              |            |              |      |      |                     |
+|              |            |              |      |      |                     |
+|              |            |              |      |      |                     |
+|              |            |              |      |      |                     |
+|              |            |              |      |      |                     |
+|              |            |              |      |      |                     |
+|              |            |              |      |      |                     |
+
+# MEM
+
+| metrics_name | table_name     | metrics_type | unit | KPI  | metrics description |
+| ------------ | -------------- | ------------ | ---- | ---- | ------------------- |
+| mem          | system_meminfo | key          |      |      | /proc/meminfo       |
+|              |                |              |      |      |                     |
+|              |                |              |      |      |                     |
+|              |                |              |      |      |                     |
+|              |                |              |      |      |                     |
+|              |                |              |      |      |                     |
+|              |                |              |      |      |                     |
+|              |                |              |      |      |                     |
+|              |                |              |      |      |                     |
+|              |                |              |      |      |                     |
+|              |                |              |      |      |                     |
+|              |                |              |      |      |                     |
+
+# FS
+
+| metrics_name | table_name | metrics_type | unit | KPI  | metrics description     |
+| ------------ | ---------- | ------------ | ---- | ---- | ----------------------- |
+| MountOn      | system_df  | key          |      |      | 文件系统的挂载点        |
+| Fsname       | system_df  | label        |      |      | 文件系统名称            |
+| Fstype       | system_df  | label        |      |      | 文件系统类型            |
+| Inodes       | system_df  | label        |      |      | 分区内inode数量         |
+| IUsed        | system_df  | gauge        |      | Y    | 分区内已使用的inode数量 |
+| IFree        | system_df  | gauge        |      |      | 分区内空闲的inode数量   |
+| IUsePer      | system_df  | gauge        | %    |      | 分区内已使用的inode占比 |
+| Blocks       | system_df  | label        | KB   |      | 分区内Block数量         |
+| Used         | system_df  | gauge        |      | Y    | 分区内已使用的Block数量 |
+| Free         | system_df  | gauge        |      | Y    | 分区内空闲的Block数量   |
+| UsePer       | system_df  | gauge        | %    | Y    | 分区内已使用的Block占比 |
+
+# NET
+
+| metrics_name      | table_name | metrics_type | unit | KPI  | metrics description |
+| ----------------- | ---------- | ------------ | ---- | ---- | ------------------- |
+| origin            |            | key          |      |      | /proc/dev/snmp      |
+| tcp_curr_estab    | system_tcp | gauge        |      |      | 当前的TCP连接数     |
+| tcp_in_segs       | system_tcp | gauge        | segs |      | TCP接收的分片数     |
+| tcp_out_segs      | system_tcp | gauge        | segs |      | TCP发送的分片数     |
+| tcp_retrans_segs  | system_tcp | gauge        | segs | Y    | TCP重传的分片数     |
+| tcp_in_errs       | system_tcp | gauge        |      |      | TCP入包错误包数     |
+| udp_indata_grams  | system_udp | gauge        | segs |      | UDP接收包量         |
+| udp_outdata_grams | system_udp | gauge        | segs |      | UDP发送包量         |
