@@ -68,9 +68,9 @@ gala-gopher软件架构参考[这里](https://gitee.com/openeuler/gala-gopher/tr
 **术语**
 
 - **探针**：gala-gopher内执行具体数据采集任务的程序，包括native、extend 2类探针，前者以线程方式单独启动数据采集任务，后者以子进程方式启动数据采集任务。gala-gopher可以通过配置修改的方式启动部分或全部探针。
-- **观测实体（entity_name）**：用来定义系统内的观测对象，所有探针采集的数据均会归属到具体的某个观测实体。每种观测实体均有key、label（可选）、metrics组成，比如tcp_link观测实体的key包括进程号、IP五元组、协议族等信息，metrics则包括tx、rx、rtt等运行状态指标。除原生支持的[观测实体](https://gitee.com/openeuler/gala-docs#%E8%A7%82%E6%B5%8B%E5%AE%9E%E4%BD%93)，gala-gopher也可以扩展观测实体。
+- **观测实体（entity_name）**：用来定义系统内的观测对象，所有探针采集的数据均会归属到具体的某个观测实体。每种观测实体均有key、label（可选）、metrics组成，比如tcp_link观测实体的key包括进程号、IP五元组、协议族等信息，metrics则包括tx、rx、rtt等运行状态指标。除原生支持的[观测实体](#观测实体)，gala-gopher也可以扩展观测实体。
 - **数据表（table_name）**：观测实体由1张或更多数据表组合而成，通常1张数据表由1个采集任务完成，由此可知单个观测实体可以由多个采集任务共同完成。
-- **meta文件**：通过文件定义观测实体（包括内部的数据表），系统内meta文件必须保证唯一，定义不可冲突。规范参考[这里](https://gitee.com/openeuler/gala-gopher/blob/master/doc/how_to_add_probe.md#122-%E5%AE%9A%E4%B9%89%E6%8E%A2%E9%92%88%E7%9A%84meta%E6%96%87%E4%BB%B6)。
+- **meta文件**：通过文件定义观测实体（包括内部的数据表），系统内meta文件必须保证唯一，定义不可冲突。规范参考[这里](https://gitee.com/openeuler/gala-gopher/blob/master/doc/how_to_add_probe.md#meta%E6%96%87%E4%BB%B6%E5%AE%9A%E4%B9%89%E8%A7%84%E8%8C%83)。
 
 ### 支持的技术
 
@@ -86,21 +86,21 @@ gala-gopher软件架构参考[这里](https://gitee.com/openeuler/gala-gopher/tr
 
 - **metrics集成方式**
 
-  **prometheus exporter方式**：用户根据gala-gopher配置文件[手册](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#metric)，设置metrics成web上报方式，以及上报[通道](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#webserver%E9%85%8D%E7%BD%AE)设置，gala-gopher就会以prometheus exporter方式工作，被动响应metrics数据GET请求。
+  **prometheus exporter方式**：用户根据gala-gopher配置文件[手册](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#%E9%85%8D%E7%BD%AE%E4%BB%8B%E7%BB%8D)，设置metric成web上报方式，并修改配置文件中<u>web_server</u>部分，gala-gopher就会以prometheus exporter方式工作，被动响应metrics数据GET请求。
 
-  **kafka client方式**：用户根据gala-gopher配置文件[手册](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#metric)，设置metrics成kafka上报方式，以及上报[通道](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#kafka%E9%85%8D%E7%BD%AE)设置，gala-gopher就会以kafka client方式工作，周期性上报metrics。用户需将metrics数据转移至prometheus内。
+  **kafka client方式**：用户根据gala-gopher配置文件[手册](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#%E9%85%8D%E7%BD%AE%E4%BB%8B%E7%BB%8D)，设置metrics成kafka上报方式，并配置<u>kafka_topic</u> ，gala-gopher就会以kafka client方式工作，周期性上报metrics。用户需将metrics数据转移至prometheus内。
 
 - **event集成方式**
 
-  **logs方式**：用户根据gala-gopher配置文件[手册](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#event)，设置event成logs上报方式，以及上报[通道](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#logs%E9%85%8D%E7%BD%AE)设置，gala-gopher就会以logs方式工作，将event以日志形式写入设定目录。用户可以通过读取该目录文件，获取gala-gopher上报的event信息并上送至kafka通道内。
+  **logs方式**：用户根据gala-gopher配置文件[手册](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#%E9%85%8D%E7%BD%AE%E4%BB%8B%E7%BB%8D)，设置event成logs上报方式，并通过<u>logs</u>部分配置日志路径，gala-gopher就会以logs方式工作，将event以日志形式写入设定目录。用户可以通过读取该目录文件，获取gala-gopher上报的event信息并上送至kafka通道内。
 
-  **kafka client方式**：用户根据gala-gopher配置文件[手册](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#event)，设置event成kafka上报方式，以及上报[通道](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#kafka%E9%85%8D%E7%BD%AE)设置，gala-gopher就会以kafka client方式工作，周期性上报event。
+  **kafka client方式**：用户根据gala-gopher配置文件[手册](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#%E9%85%8D%E7%BD%AE%E4%BB%8B%E7%BB%8D)，设置event成kafka上报方式，并配置<u>kafka_topic</u>，gala-gopher就会以kafka client方式工作，周期性上报event。
 
 - **meta文件集成方式**
 
-  **logs方式**：用户根据gala-gopher配置文件[手册](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#meta)，设置meta成logs上报方式，以及上报[通道](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#logs%E9%85%8D%E7%BD%AE)设置，gala-gopher就会以logs方式工作，将gala-gopher集成的所有meta文件以日志形式写入设定目录。用户需要将meta信息上送至kafka通道内。
+  **logs方式**：用户根据gala-gopher配置文件[手册](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#%E9%85%8D%E7%BD%AE%E4%BB%8B%E7%BB%8D)，设置meta成logs上报方式，并通过<u>logs</u>部分配置日志路径，gala-gopher就会以logs方式工作，将gala-gopher集成的所有meta文件以日志形式写入设定目录。用户需要将meta信息上送至kafka通道内。
 
-  **kafka client方式**：用户根据gala-gopher配置文件[手册](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#meta)，设置event成kafka上报方式，以及上报[通道](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#kafka%E9%85%8D%E7%BD%AE)设置，gala-gopher就会以kafka client方式工作，周期性上报meta信息。
+  **kafka client方式**：用户根据gala-gopher配置文件[手册](https://gitee.com/openeuler/gala-gopher/blob/master/doc/conf_introduction.md#%E9%85%8D%E7%BD%AE%E4%BB%8B%E7%BB%8D)，设置event成kafka上报方式，并配置<u>kafka_topic</u>，gala-gopher就会以kafka client方式工作，周期性上报meta信息。
 
 ### 扩展数据采集范围
 
@@ -108,13 +108,13 @@ gala-gopher软件架构参考[这里](https://gitee.com/openeuler/gala-gopher/tr
 
 - **定义观测实体**
 
-通过定义观测实体（或者更新原观测实体）用于承载新增采集metrics数据。用户通过meta文件（规范参考[这里](https://gitee.com/openeuler/gala-gopher/blob/master/doc/how_to_add_probe.md#122-%E5%AE%9A%E4%B9%89%E6%8E%A2%E9%92%88%E7%9A%84meta%E6%96%87%E4%BB%B6)）定义观测实体的key、label（可选）、metrics，定义完成后，将meta文件归档在[探针目录](https://gitee.com/openeuler/gala-gopher/blob/master/doc/how_to_add_probe.md#23-%E5%AE%9A%E4%B9%89%E6%8E%A2%E9%92%88%E7%9B%AE%E5%BD%95)。
+通过定义观测实体（或者更新原观测实体）用于承载新增采集metrics数据。用户通过meta文件（参考[这里](https://gitee.com/openeuler/gala-gopher/blob/master/doc/how_to_add_probe.md#2-%E5%AE%9A%E4%B9%89meta%E6%96%87%E4%BB%B6)）定义观测实体的key、label（可选）、metrics，定义完成后，将meta文件归档在[探针目录](https://gitee.com/openeuler/gala-gopher/blob/master/doc/how_to_add_probe.md#%E5%BC%80%E5%8F%91%E8%A7%86%E5%9B%BE)。
 
 - **集成数据探针**
 
-用户可以通过各种编程语言（shell、python、java等）包装数据采集软件，并在脚本中按照meta文件定义[格式](https://gitee.com/openeuler/gala-gopher/blob/master/doc/how_to_add_probe.md#123-%E8%BE%93%E5%87%BA%E6%8E%A2%E9%92%88%E6%8C%87%E6%A0%87)将采集到的数据通过linux管道符形式输出。
+用户可以通过各种编程语言（shell、python、java等）包装数据采集软件，并在脚本中按照meta文件定义格式将采集到的数据通过linux管道符形式输出，参考[这里](https://gitee.com/openeuler/gala-gopher/blob/master/doc/how_to_add_probe.md#3-%E8%BE%93%E5%87%BA%E6%8E%A2%E9%92%88%E6%8C%87%E6%A0%87-1)。
 
-参考：[cAdvisor](https://gitee.com/openeuler/gala-gopher/tree/master/src/probes/extends/python.probe/cadvisor.probe)第三方探针集成案例。
+参考[cAdvisor第三方探针集成案例](https://gitee.com/openeuler/gala-gopher/blob/master/doc/how_to_add_probe.md#%E5%A6%82%E4%BD%95%E6%96%B0%E5%A2%9Eextends%E6%8E%A2%E9%92%88)。
 
 ## gala-spider
 
