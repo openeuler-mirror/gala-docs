@@ -336,35 +336,39 @@
 
 # CPU
 
-| metrics_name | table_name | metrics_type | unit | KPI  | metrics description |
-| ------------ | ---------- | ------------ | ---- | ---- | ------------------- |
-|              |            |              |      |      |                     |
-|              |            |              |      |      |                     |
-|              |            |              |      |      |                     |
-|              |            |              |      |      |                     |
-|              |            |              |      |      |                     |
-|              |            |              |      |      |                     |
-|              |            |              |      |      |                     |
-|              |            |              |      |      |                     |
-|              |            |              |      |      |                     |
-|              |            |              |      |      |                     |
+| metrics_name         | table_name      | metrics_type | unit    | KPI  | metrics description           |
+| -------------------- | --------------- | ------------ | ------- | ---- | ----------------------------- |
+| cpu                  | system_cpu      | key          |         |      | CPU编号                        |
+| rcu                  | system_cpu      | gauge        |         |      | RCU锁软中断次数                 |
+| timer                | system_cpu      | gauge        |         |      | 定时器软中断次数                |
+| sched                | system_cpu      | gauge        |         |      | 调度中断次数                    |
+| net_rx               | system_cpu      | gauge        | jiffies |      | 网卡收包中断次数                |
+| user_total_second    | system_cpu      | gauge        | jiffies |      | 用户态cpu占用时间（不包括nice）  |
+| nice_total_second    | system_cpu      | gauge        | jiffies |      | nice用户态cpu占用时间（低优先级） |
+| system_total_second  | system_cpu      | gauge        | jiffies |      | 内核态cpu占用时间               |
+| iowait_total_second  | system_cpu      | gauge        | jiffies |      | 等待I/O完成的时间               |
+| irq_total_second     | system_cpu      | gauge        | jiffies |      | 硬中断时间                      |
+| softirq_total_second | system_cpu      | gauge        | jiffies |      | 软中断时间                      |
+| backlog_drops        | system_cpu      | gauge        |         |      | softnet_data队列满而丢弃报文数量 |
+| rps_count            | system_cpu      | gauge        |         |      | CPU收到的RPS次数                |
+| total_used_per       | system_cpu_util | gauge        | %       |      | CPU总利用率                     |
 
 # MEM
 
 | metrics_name | table_name     | metrics_type | unit | KPI  | metrics description |
 | ------------ | -------------- | ------------ | ---- | ---- | ------------------- |
 | mem          | system_meminfo | key          |      |      | /proc/meminfo       |
-|              |                |              |      |      |                     |
-|              |                |              |      |      |                     |
-|              |                |              |      |      |                     |
-|              |                |              |      |      |                     |
-|              |                |              |      |      |                     |
-|              |                |              |      |      |                     |
-|              |                |              |      |      |                     |
-|              |                |              |      |      |                     |
-|              |                |              |      |      |                     |
-|              |                |              |      |      |                     |
-|              |                |              |      |      |                     |
+| mem_total    | system_meminfo | gauge        | KB   |      | 系统总的可用物理内存   |
+| mem_free     | system_meminfo | gauge        | KB   |      | 系统还可用的物理内存   |
+| mem_available| system_meminfo | gauge        | KB   |      | 用户还可用内存        |
+| mem_util     | system_meminfo | gauge        | %    |      | 系统内存使用率        |
+| mem_buffers  | system_meminfo | gauge        | KB   |      | 被 buffer使用的物理内存|
+| mem_cached   | system_meminfo | gauge        | KB   |      | 被 cache使用的物理内存 |
+| mem_active   | system_meminfo | gauge        | KB   |      | 经常使用的cache页面大小|
+| mem_inactive | system_meminfo | gauge        | KB   |      | 非活跃内存大小,可回收  |
+| swap_total   | system_meminfo | gauge        | KB   |      | 交换区总量           |
+| swap_free    | system_meminfo | gauge        | KB   |      | 空闲交换区总量        |
+| swap_util    | system_meminfo | gauge        | %    |      | 交换区的使用率        |
 
 # FS
 
