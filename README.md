@@ -524,6 +524,7 @@ gala-ops针对应用异常，具备2种根因定位能力：**单节点、跨节
 
 # 常用API介绍
 
+1. gala-anteater/gala-inference [rest接口使用说明](./gala_event_api.md)。
 
 
 # 用户案例
