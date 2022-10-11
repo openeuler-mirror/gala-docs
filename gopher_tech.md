@@ -398,3 +398,50 @@
 | tcp_in_errs       | system_tcp | gauge        |      |      | TCP入包错误包数     |
 | udp_indata_grams  | system_udp | gauge        | segs |      | UDP接收包量         |
 | udp_outdata_grams | system_udp | gauge        | segs |      | UDP发送包量         |
+
+# Dnsmasq（entity_name：dnsmasq_link）
+
+| metrics_name | table_name   | metrics_type | unit | KPI  | metrics description |
+| ------------ | ------------ | ------------ | ---- | ---- | ------------------- |
+| client_ip    | dnsmasq_link | key          |      |      | 客户端IP            |
+| virtual_ip   | dnsmasq_link | key          |      |      | DNS服务器IP         |
+| family       | dnsmasq_link | label        |      |      | 协议族              |
+| link_count   | dnsmasq_link | gauge        |      |      | 连接数              |
+
+# LVS（entity_name：ipvs_link）
+
+| metrics_name | table_name | metrics_type | unit | KPI  | metrics description |
+| ------------ | ---------- | ------------ | ---- | ---- | ------------------- |
+| client_ip    | ipvs_link  | key          |      |      | 客户端IP            |
+| virtual_ip   | ipvs_link  | key          |      |      | 虚拟IP              |
+| local_ip     | ipvs_link  | key          |      |      | 本地IP              |
+| server_ip    | ipvs_link  | key          |      |      | 真实的服务端IP      |
+| server_port  | ipvs_link  | key          |      |      | 真实的服务端端口    |
+| virtual_port | ipvs_link  | key          |      |      | 虚拟地址端口        |
+| protocol     | ipvs_link  | label        |      |      | 协议类型            |
+| link_count   | ipvs_link  | gauge        |      |      | 连接数              |
+
+# Nginx（entity_name：nginx_link）
+
+| metrics_name | table_name | metrics_type | unit | KPI  | metrics description |
+| ------------ | ---------- | ------------ | ---- | ---- | ------------------- |
+| client_ip    | nginx_link | key          |      |      | 客户端IP            |
+| virtual_ip   | nginx_link | key          |      |      | 虚拟服务器IP        |
+| server_ip    | nginx_link | key          |      |      | 真实服务端IP        |
+| virtual_port | nginx_link | key          |      |      | 虚拟服务器端口      |
+| server_port  | nginx_link | key          |      |      | 真实服务端端口      |
+| is_l7        | nginx_link | label        |      |      | 1—七层LB / 0—四层LB |
+| link_count   | nginx_link | gauge        |      |      | 连接数              |
+
+# Haproxy（entity_name：haproxy_link）
+
+| metrics_name | table_name   | metrics_type | unit | KPI  | metrics description |
+| ------------ | ------------ | ------------ | ---- | ---- | ------------------- |
+| client_ip    | haproxy_link | key          |      |      | 客户端IP            |
+| virtual_ip   | haproxy_link | key          |      |      | 虚拟服务器IP        |
+| server_ip    | haproxy_link | key          |      |      | 真实服务端IP        |
+| virtual_port | haproxy_link | key          |      |      | 虚拟服务器端口      |
+| server_port  | haproxy_link | key          |      |      | 真实服务端端口      |
+| protocol     | haproxy_link | label        |      |      | 协议类型(TCP/HTTP)  |
+| link_count   | haproxy_link | gauge        |      |      | 连接数              |
+
