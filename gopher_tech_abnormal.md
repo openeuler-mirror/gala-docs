@@ -16,6 +16,12 @@ gala-gopher提供系统异常检测能力，支持用户在启动各个探针的
 
 本章以观测实体（`entity_name`）的粒度来介绍其支持的异常事件。
 
+### SLI
+
+| 异常事件名           | 事件信息                                                     | 输出参数                                                     | 输入参数 | 异常等级 |
+| -------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | -------- | -------- |
+| rtt_nsec（Redis/PG） | Process(TID:%d, CIP(%s:%u), SIP(%s:%u)) SLI(%s:%llu) exceed the threshold. | P1: process  ID P2: client ip and port P3: server ip and port P4 command and SLI | [-T <>]  | WARN     |
+
 ### TCP_LINK
 
 | 异常事件名    | 事件信息                                   | 输出参数          | 输入参数 | 异常等级 |
