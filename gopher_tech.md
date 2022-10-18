@@ -35,10 +35,12 @@
 | sk_rcv_que_size     | tcp_sockbuf | Gauge        |                    |      | Size   of receive queue in sock.                             |
 | sk_wri_que_size     | tcp_sockbuf | Gauge        |                    |      | Size   of write queue in sock.                               |
 | syn_srtt            | tcp_srtt    | Gauge        | us                 | Y    | RTT   of syn packet(us).                                     |
-| sk_backlog_size     | tcp_sockbuf | Gauge        |                    |      | Size   of backlog queue in sock.                             |
-| sk_omem_size        | tcp_sockbuf | Gauge        |                    |      | Size   of omem in sock.                                      |
-| sk_forward_size     | tcp_sockbuf | Gauge        |                    |      | Size   of forward in sock.                                   |
-| sk_wmem_size        | tcp_sockbuf | Gauge        |                    |      | Size   of wmem in sock.                                      |
+| sk_backlog_size     | tcp_sockbuf | Gauge        |                    |      | Length of the queue used by the receive buffer.              |
+| sk_omem_size        | tcp_sockbuf | Gauge        | bytes              |      | Memory used by other caches.                                 |
+| sk_forward_size     | tcp_sockbuf | Gauge        | bytes              |      | Size of the pre-allocated memory of the sending cache.       |
+| sk_wmem_size        | tcp_sockbuf | Gauge        | bytes              |      | Used memory size of the sending cache.                       |
+| sk_rcvbuf           | tcp_sockbuf | Gauge        | bytes              |      | Byte length of the RX buffer.                                |
+| sk_sndbuf           | tcp_sockbuf | Gauge        | bytes              |      | Byte length of the TX buffer.                                |
 | segs_in             | tcp_tx_rx   | Counter      | segs               |      | total   number of segments received                          |
 | segs_out            | tcp_tx_rx   | Counter      | segs               |      | total   number of segments sent                              |
 | retran_packets      | tcp_abn     | Gauge        |                    | Y    | total number of retrans                                      |
