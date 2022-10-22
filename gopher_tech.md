@@ -100,18 +100,13 @@
 
 # THREAD（entity_name：task）
 
-| metrics_name    | table_name | metrics_type | unit  | KPI  | metrics description                                          |
-| --------------- | ---------- | ------------ | ----- | ---- | ------------------------------------------------------------ |
-| pid             | thread     | key          |       |      | 线程PID                                                      |
-| tgid            | thread     | label        |       |      | 所属进程ID                                                   |
-| comm            | thread     | label        |       |      | 线程所属进程名称                                             |
-| off_cpu_ns      | thread     | Gauge        | ns    | Y    | task调度offcpu的最大时间，统计方式：      1. KPROBE finish_task_switch 获取入参prev   task（pid）以及当前时间，当前CPU信息（bpf_get_smp_processor_id()），记录MAP（pid/cpu作为key）；      2. finish_task_switch   中bpf_get_current_pid_tgid获取当前pid，以及当前CPU信息（bpf_get_smp_processor_id()），匹配步骤1中的数据以及计算时间差，得出一次offcpu时间。      注意：      1. 过滤idle(pid=0)      2. 只记录offcpu最大值 |
-| migration_count | thread     | Gauge        |       |      | task   CPU之间迁移次数                                       |
-| iowait_us       | thread     | Gauge        | us    | Y    | task   IO操作等待时间（单位us）                              |
-| bio_bytes_write | thread     | Gauge        | bytes | Y    | task发起bio写操作字节数                                      |
-| bio_bytes_read  | thread     | Gauge        | bytes | Y    | task发起bio读操作字节数                                      |
-| bio_err_count   | thread     | Gauge        |       |      | task发起的bio结果失败的次数                                  |
-| hang_count      | thread     | Gauge        |       |      | task发生io   hang次数                                        |
+| metrics_name    | table_name | metrics_type | unit | KPI  | metrics description                                          |
+| --------------- | ---------- | ------------ | ---- | ---- | ------------------------------------------------------------ |
+| pid             | thread     | key          |      |      | 线程PID                                                      |
+| tgid            | thread     | label        |      |      | 所属进程ID                                                   |
+| comm            | thread     | label        |      |      | 线程所属进程名称                                             |
+| off_cpu_ns      | thread     | Gauge        | ns   | Y    | task调度offcpu的最大时间，统计方式：      1. KPROBE finish_task_switch 获取入参prev   task（pid）以及当前时间，当前CPU信息（bpf_get_smp_processor_id()），记录MAP（pid/cpu作为key）；      2. finish_task_switch   中bpf_get_current_pid_tgid获取当前pid，以及当前CPU信息（bpf_get_smp_processor_id()），匹配步骤1中的数据以及计算时间差，得出一次offcpu时间。      注意：      1. 过滤idle(pid=0)      2. 只记录offcpu最大值 |
+| migration_count | thread     | Gauge        |      |      | task   CPU之间迁移次数                                       |
 
 # Process（entity_name：proc）
 
@@ -178,8 +173,14 @@
 | ns_vfork              | proc_syscall_fork  | Gauge        | ns   |      | 进程系统调用vfork时长，单位ns                                |
 | ns_clone              | proc_syscall_fork  | Gauge        | ns   |      | 进程系统调用clone时长，单位ns                                |
 | syscall_failed        | proc_syscall       | Gauge        |      | Y    | 进程系统调用失败次数                                         |
-|                       |                    |              |      |      |                                                              |
-|                       |                    |              |      |      |                                                              |
+| less_4k_io_read       | proc_io            | Gauge        |      |      | Number of small I/O (less than 4 KB) read operations at the BIO layer. |
+| less_4k_io_write      | proc_io            | Gauge        |      |      | Number of small I/O (less than 4 KB) write operations at the BIO layer. |
+| greater_4k_io_read    | proc_io            | Gauge        |      |      | Number of big I/O (greater than 4 KB) read operations at the BIO layer. |
+| greater_4k_io_write   | proc_io            | Gauge        |      |      | Number of big I/O (greater than 4 KB) write operations at the BIO layer. |
+| bio_latency           | proc_io            | Gauge        | us   |      | I/O operation delay at the BIO layer (unit: us).             |
+| bio_err_count         | proc_io            | Gauge        |      |      | Number of I/O operation failures at the BIO layer.           |
+| hang_count            | proc_io            | Gauge        |      |      | Number of process hang times.                                |
+| iowait_us             | proc_io            | Gauge        | us   |      | Process IO_wait time (unit: us).                             |
 
 # BLOCK
 

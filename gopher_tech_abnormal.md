@@ -47,12 +47,9 @@ gala-gopher提供系统异常检测能力，支持用户在启动各个探针的
 
 ### THREAD
 
-| 异常事件名    | 事件信息                                                     | 输出参数                                                     | 输入参数 | 异常等级 |
-| ------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | -------- | -------- |
-| off_cpu_ns    | Process(COMM:%s TID:%d) is preempted(COMM:%s PID:%d) and off-CPU %llu ns. | P1: process name P2: process id P3: process name P4: process id P5: off-cpu times | NA       | WARN     |
-| iowait_us     | Process(COMM:%s TID:%d) iowait %llu us.                      | P1: process name P2: process id P3: io-wait times            | [-T <>]  | WARN     |
-| hang_count    | Process(COMM:%s TID:%d) io hang %u.                          | P1: process name P2: process id P3: error count              | NA       | WARN     |
-| bio_err_count | Process(COMM:%s TID:%d) bio error %u.                        | P1: process name P2: process id P3: error count              | NA       | WARN     |
+| 异常事件名 | 事件信息                                                     | 输出参数                                                     | 输入参数 | 异常等级 |
+| ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ | -------- | -------- |
+| off_cpu_ns | Process(COMM:%s TID:%d) is preempted(COMM:%s PID:%d) and off-CPU %llu ns. | P1: process name P2: process id P3: process name P4: process id P5: off-cpu times | [-O <>]  | WARN     |
 
 ### PROC
 
@@ -60,6 +57,9 @@ gala-gopher提供系统异常检测能力，支持用户在启动各个探针的
 | ------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | -------- | -------- |
 | syscall_failed     | Process(COMM:%s PID:%u) syscall failed(SysCall-ID:%d RET:%d COUNT:%u). | P1: process name P2: process id P3: syscall no P4: syscall ret-code P5 failed count | NA       | WARN     |
 | gethostname_failed | Process(COMM:%s PID:%u) gethostname failed(COUNT:%u).        | P1: process name P2: process id P3 failed count              | NA       | WARN     |
+| iowait_us          | Process(COMM:%s PID:%u) iowait %llu us.                      | P1: process name P2: process id P3: io-wait times            | [-T <>]  | WARN     |
+| hang_count         | Process(COMM:%s PID:%u) hang count %u.                       | P1: process name P2: process id P3: error count              | NA       | WARN     |
+| bio_err_count      | Process(COMM:%s PID:%u) bio error %u.                        | P1: process name P2: process id P3: error count              | NA       | WARN     |
 
 ### BLOCK
 
