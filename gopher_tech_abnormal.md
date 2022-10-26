@@ -397,14 +397,10 @@ gala-gopher提供系统异常检测能力，支持用户在启动各个探针的
 
 ### BLOCK
 
-| 异常事件名           | 事件信息                                                     | 输出参数                                                     | 输入参数 | 异常等级 |
-| -------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | -------- | :------- |
-| count_iscsi_err      | Iscsi errors(%llu) occured on Block(%s, disk %s).            | P1: block name P2: disk name                                 | NA       | WARN     |
-| count_iscsi_tmout    | Iscsi timeout(%llu) occured on Block(%s, disk %s).           | P1: block name P2: disk name                                 | NA       | WARN     |
-| latency_flush_jitter | Jitter latency of flush operation(%llu) exceeded threshold, occured on Block(%s, disk %s). | P1：flush jitter latency, unit is us P2: block name P3: disk name | [-J <>]  | WARN     |
-| latency_flush_max    | Latency of flush operation(%llu) exceeded threshold, occured on Block(%s, disk %s). | P1：flush latency, unit is us P2: block name P3: disk name   | [-T <>]  | WARN     |
-| latency_req_jitter   | Jitter latency of request operation(%llu) exceeded threshold, occured on Block(%s, disk %s). | P1：request jitter latency, unit is us P2: block name P3: disk name | [-J <>]  | WARN     |
-| latency_req_max      | Latency of request operation(%llu) exceeded threshold, occured on Block(%s, disk %s). | P1：request latency, unit is us P2: block name P3: disk name | [-T <>]  | WARN     |
+| 异常事件名      | 事件信息                                                     | 输出参数 | 输入参数 | 异常等级 |
+| --------------- | ------------------------------------------------------------ | -------- | -------- | :------- |
+| latency_req_max | IO latency occured. (Block %d:%d, COMM %s, PID %u, op: %s, datalen %u, drv_latency %llu, dev_latency %llu) |          | [-T <>]  | WARN     |
+| count_io_err    | IO errors occured. (Block %d:%d, COMM %s, PID %u, op: %s, datalen %u, err_code %d, scsi_err %d, scsi_tmout %d) |          | NA       | WARN     |
 
 ### DISK
 

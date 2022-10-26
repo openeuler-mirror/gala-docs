@@ -184,44 +184,33 @@
 
 # BLOCK
 
-| metrics_name            | table_name | metrics_type | unit | KPI  | metrics description             |
-| ----------------------- | ---------- | ------------ | ---- | ---- | ------------------------------- |
-| major                   | block      | key          |      |      | 块对象编号                      |
-| first_minor             | block      | key          |      |      | 块对象编号                      |
-| blk_type                | block      | label        |      |      | 块对象类型（比如disk,   part）  |
-| blk_name                | block      | label        |      |      | 块对象名称                      |
-| disk_name               | block      | label        |      |      | 所属磁盘名称                    |
-| latency_req_max         | block      | Gauge        | us   | Y    | block层request时延最大值        |
-| latency_req_last        | block      | Gauge        | us   |      | block层request时延最近值        |
-| latency_req_sum         | block      | Gauge        | us   |      | block层request时延总计值        |
-| latency_req_jitter      | block      | Gauge        | us   |      | block层request时延抖动          |
-| count_latency_req       | block      | Gauge        |      |      | block层request操作次数          |
-| latency_flush_max       | block      | Gauge        | us   | Y    | block层flush时延最大值          |
-| latency_flush_last      | block      | Gauge        | us   |      | block层flush时延最近值          |
-| latency_flush_sum       | block      | Gauge        | us   |      | block层flush时延总计值          |
-| latency_flush_jitter    | block      | Gauge        | us   |      | block层flush时延抖动            |
-| count_latency_flush     | block      | Gauge        |      |      | block层flush操作次数            |
-| latency_driver_max      | block      | Gauge        | us   |      | 驱动层时延最大值                |
-| latency_driver_last     | block      | Gauge        | us   |      | 驱动层时延最近值                |
-| latency_driver_sum      | block      | Gauge        | us   |      | 驱动层时延最总计值              |
-| latency_driver_jitter   | block      | Gauge        | us   |      | 驱动层时延抖动                  |
-| count_latency_driver    | block      | Gauge        |      |      | 驱动层操作次数                  |
-| latency_device_max      | block      | Gauge        | us   |      | 设备层时延最大值                |
-| latency_device_last     | block      | Gauge        | us   |      | 设备层时延最近值                |
-| latency_device_sum      | block      | Gauge        | us   |      | 设备层时延最总计值              |
-| latency_device_jitter   | block      | Gauge        | us   |      | 设备层时延抖动                  |
-| count_latency_device    | block      | Gauge        |      |      | 设备层操作次数                  |
-| count_iscsi_tmout       | block      | Gauge        |      |      | iscsi层操作超时次数             |
-| count_iscsi_err         | block      | Gauge        |      | Y    | iscsi层操作失败次数             |
-| conn_err_bad_opcode     | block      | Gauge        |      |      | iscsi   tp层错误操作码次数      |
-| conn_err_xmit_failed    | block      | Gauge        |      |      | iscsi   tp层发送失败次数        |
-| conn_err_tmout          | block      | Gauge        |      |      | iscsi   tp层超时次数            |
-| conn_err_connect_failed | block      | Gauge        |      |      | iscsi   tp层建链失败次数        |
-| count_sas_abort         | block      | Gauge        |      |      | iscsi   sas层异常次数           |
-| access_pagecache        | block      | Gauge        |      |      | Block页面访问次数               |
-| mark_buffer_dirty       | block      | Gauge        |      |      | Block   page buffer置脏次数     |
-| load_page_cache         | block      | Gauge        |      |      | Block   page 加入page cache次数 |
-| mark_page_dirty         | block      | Gauge        |      |      | Block   page 置脏次数           |
+| metrics_name          | table_name   | metrics_type | unit | KPI  | metrics description             |
+| --------------------- | ------------ | ------------ | ---- | ---- | ------------------------------- |
+| major                 | block        | key          |      |      | 块对象编号                      |
+| first_minor           | block        | key          |      |      | 块对象编号                      |
+| blk_type              | block        | label        |      |      | 块对象类型（比如disk,   part）  |
+| blk_name              | block        | label        |      |      | 块对象名称                      |
+| disk_name             | block        | label        |      |      | 所属磁盘名称                    |
+| latency_req_max       | io_latency   | Gauge        | us   | Y    | block层I/O操作时延最大值        |
+| latency_req_last      | io_latency   | Gauge        | us   |      | block层I/O操作时延最近值        |
+| latency_req_sum       | io_latency   | Gauge        | us   |      | block层I/O操作时延总计值        |
+| latency_req_jitter    | io_latency   | Gauge        | us   |      | block层I/O操作时延抖动          |
+| count_latency_req     | io_latency   | Gauge        |      |      | block层I/O操作操作次数          |
+| latency_driver_max    | io_latency   | Gauge        | us   |      | 驱动层时延最大值                |
+| latency_driver_last   | io_latency   | Gauge        | us   |      | 驱动层时延最近值                |
+| latency_driver_sum    | io_latency   | Gauge        | us   |      | 驱动层时延最总计值              |
+| latency_driver_jitter | io_latency   | Gauge        | us   |      | 驱动层时延抖动                  |
+| count_latency_driver  | io_latency   | Gauge        |      |      | 驱动层操作次数                  |
+| latency_device_max    | io_latency   | Gauge        | us   | Y    | 设备层时延最大值                |
+| latency_device_last   | io_latency   | Gauge        | us   |      | 设备层时延最近值                |
+| latency_device_sum    | io_latency   | Gauge        | us   |      | 设备层时延最总计值              |
+| latency_device_jitter | io_latency   | Gauge        | us   |      | 设备层时延抖动                  |
+| count_latency_device  | io_latency   | Gauge        |      |      | 设备层操作次数                  |
+| count_io_err          | io_latency   | Gauge        |      |      | block层I/O操作错误次数          |
+| access_pagecache      | io_pagecache | Gauge        |      |      | Block页面访问次数               |
+| mark_buffer_dirty     | io_pagecache | Gauge        |      |      | Block   page buffer置脏次数     |
+| load_page_cache       | io_pagecache | Gauge        |      |      | Block   page 加入page cache次数 |
+| mark_page_dirty       | io_pagecache | Gauge        |      |      | Block   page 置脏次数           |
 
 # Container
 
