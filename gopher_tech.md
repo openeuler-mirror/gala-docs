@@ -465,3 +465,25 @@
 | protocol     | haproxy_link | label        |      |      | 协议类型(TCP/HTTP)  |
 | link_count   | haproxy_link | gauge        |      |      | 连接数              |
 
+# JVM（entity_name：jvm）
+
+| metrics_name                  | table_name   | metrics_type | unit  | KPI  | metrics description           |
+| ----------------------------- | ------------ | ------------ | ----- | ---- | ----------------------------- |
+| jvm_tpid                      | jvm          | key          |       |      | Java 虚拟机的进程ID            |
+| pkg_name_main_class           | jvm          | label        |       |      | jar包名字和main方法所在类文件   |
+| jvm_type                      | jvm          | label        |       |      | JVM 类型                      |
+| jvm_version                   | jvm          | label        |       |      | JVM 版本                      |
+| process_cpu_seconds_total     | jvm          | gauge        | ms    |      | 耗费CPU信息                   |
+| process_start_time_seconds    | jvm          | gauge        | ms    |      | 进程起始时间                   |
+| jvm_heap_memory_bytes_used    | jvm          | gauge        | bytes |      | 堆内存的使用情况               |
+| jvm_heap_occuped_percent      | jvm          | gauge        | %     |      | 可用堆内存占最大可用空间的比值  |
+| jvm_nonheap_memory_bytes_used | jvm          | gauge        | bytes |      | 非堆内存使用情况               |
+| jvm_nonheap_occuped_perscent  | jvm          | gauge        | %     |      | 可用非堆内存占最大可用空间的比值 |
+| jvm_buffer_pool_total_size    | jvm          | gauge        | bytes |      | JVM缓冲区的总容量              |
+| jvm_buffer_pool_used_bytes    | jvm          | gauge        | bytes |      | JVM缓冲区的使用情况            |
+| jvm_gc_total_seconds          | jvm          | gauge        | ms    |      | 所有GC回收器的总耗时           |
+| jvm_gc_total_count            | jvm          | gauge        |       |      | 所有GC回收器的总次数           |
+| jvm_gc_avg_usage              | jvm          | gauge        |       |      | GC回收器的平均使用率           |
+| jvm_threads_current           | jvm          | gauge        |       |      | 并行线程数                    |
+| jvm_threads_peak              | jvm          | gauge        |       |      | 并行线程峰值                  |
+| jvm_threads_deadlocked        | jvm          | gauge        |       |      | 死锁线程数                    |  
