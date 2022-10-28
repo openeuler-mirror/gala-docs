@@ -273,7 +273,7 @@
 | tasks_state                            | container_tasks   | Gauge        |         |      | Number   of tasks in given state (sleeping, running, stopped, uninterruptible, or   ioawaiting) |
 |                                        |                   |              |         |      |                                                              |
 
-# SLI
+# Redis SLI
 
 | metrics_name | table_name    | metrics_type | unit | KPI  | metrics description              |
 | ------------ | ------------- | ------------ | ---- | ---- | -------------------------------- |
@@ -287,6 +287,19 @@
 | client_port  |               | label        |      |      | 客户端端口                       |
 | rtt_nsec     | redis_sli     | gauge        | ns   | Y    | Redis协议请求RTT                 |
 | max_rtt_nsec | redis_max_sli | gauge        | ns   | Y    | Redis协议采样周期内最大请求RTT   |
+
+# Postgre SLI
+
+| metrics_name | table_name    | metrics_type | unit | KPI  | metrics description              |
+| ------------ | ------------- | ------------ | ---- | ---- | -------------------------------- |
+| tgid         |               | key          |      |      | 进程ID                           |
+| ins_id       |               | key          |      |      | 实例ID                           |
+| app          |               | key          |      |      | 应用名                           |
+| method       |               | key          |      |      | 请求方法                         |
+| server_ip    |               | label        |      |      | 服务端IP                         |
+| server_port  |               | label        |      |      | 服务端端口                       |
+| client_ip    |               | label        |      |      | 客户端IP                         |
+| client_port  |               | label        |      |      | 客户端端口                       |
 | rtt_nsec     | pg_sli        | gauge        | ns   | Y    | Postgre协议请求RTT               |
 | max_rtt_nsec | pg_max_sli    | gauge        | ns   | Y    | Postgre协议采样周期内最大请求RTT |
 
