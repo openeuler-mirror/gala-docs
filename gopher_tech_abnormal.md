@@ -400,7 +400,7 @@ gala-gopher提供系统异常检测能力，支持用户在启动各个探针的
 | 异常事件名      | 事件信息                                                     | 输出参数 | 输入参数 | 异常等级 |
 | --------------- | ------------------------------------------------------------ | -------- | -------- | :------- |
 | latency_req_max | IO latency occured. (Block %d:%d, COMM %s, PID %u, op: %s, datalen %u, drv_latency %llu, dev_latency %llu) |          | [-T <>]  | WARN     |
-| count_io_err    | IO errors occured. (Block %d:%d, COMM %s, PID %u, op: %s, datalen %u, err_code %d, scsi_err %d, scsi_tmout %d) |          | NA       | WARN     |
+| err_code        | IO errors occured. (Block %d:%d, COMM %s, PID %u, op: %s, datalen %u, err_code %d, scsi_err %d, scsi_tmout %d) |          | NA       | WARN     |
 
 ### DISK
 
