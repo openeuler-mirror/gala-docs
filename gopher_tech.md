@@ -73,6 +73,7 @@
 | passive_open        | listen     | Gauge        |       | Y    | tcp被动发起的建链次数（只有listen对象存在）      |
 | passive_open_failed | listen     | Gauge        |       | Y    | tcp被动发起的建链失败次数（只有listen对象存在）  |
 | retran_synacks      | listen     | Gauge        |       |      | tcp   synack重传报文数                           |
+| lost_synacks        | listen     | Gauge        |       |      | TCP synack报文丢失导致的建链失败次数             |
 | active_open         | connect    | Gauge        |       |      | tcp主动发起的建链次数（只有connect对象存在）     |
 | active_open_failed  | connect    | Gauge        |       |      | tcp主动发起的建链失败次数（只有connect对象存在） |
 | bind_rcv_drops      | bind       | Gauge        |       | Y    | UDP接收失败次数（udp/bind对象存在）              |
