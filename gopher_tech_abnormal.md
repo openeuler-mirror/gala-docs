@@ -197,15 +197,17 @@ gala-gopher提供系统异常检测能力，支持用户在启动各个探针的
 
 ### ENDPOINT
 
-| 异常事件名          | 事件信息                        | 输出参数           | 输入参数 | 异常等级 |
-| ------------------- | ------------------------------- | ------------------ | -------- | -------- |
-| listendrop          | TCP listen drops(%lu).          | P1: drops count    | NA       | WARN     |
-| accept_overflow     | TCP accept queue overflow(%lu). | P1: overflow count | NA       | WARN     |
-| syn_overflow        | TCP syn queue overflow(%lu).    | P1: overflow count | NA       | WARN     |
-| passive_open_failed | TCP passive open failed(%lu).   | P1: failed count   | NA       | WARN     |
-| active_open_failed  | TCP active open failed(%lu).    | P1: failed count   | NA       | WARN     |
-| bind_rcv_drops      | UDP(S) queue drops(%lu).        | P1: drops count    | NA       | WARN     |
-| udp_rcv_drops       | UDP(C) queue drops(%lu).        | P1: drops count    | NA       | WARN     |
+| 异常事件名          | 事件信息                                                  | 输出参数           | 输入参数 | 异常等级 |
+| ------------------- | --------------------------------------------------------- | ------------------ | -------- | -------- |
+| listendrop          | TCP listen drops(%lu).                                    | P1: drops count    | NA       | WARN     |
+| accept_overflow     | TCP accept queue overflow(%lu).                           | P1: overflow count | NA       | WARN     |
+| syn_overflow        | TCP syn queue overflow(%lu).                              | P1: overflow count | NA       | WARN     |
+| passive_open_failed | TCP passive open failed(%lu).                             | P1: failed count   | NA       | WARN     |
+| active_open_failed  | TCP active open failed(%lu).                              | P1: failed count   | NA       | WARN     |
+| bind_rcv_drops      | UDP(S) queue drops(%lu).                                  | P1: drops count    | NA       | WARN     |
+| udp_rcv_drops       | UDP(C) queue drops(%lu).                                  | P1: drops count    | NA       | WARN     |
+| lost_synacks        | TCP connection setup failure due to loss of SYN/ACK(%lu). | P1: failed count   | NA       | WARN     |
+| retran_synacks      | TCP SYN/ACK retransmission occurs.(%lu).                  | P1: failed count   | NA       | WARN     |
 
 #### 输出格式
 
