@@ -69,12 +69,18 @@ gala-gopher提供系统异常检测能力，支持用户在启动各个探针的
 
 ### TCP_LINK
 
-| 异常事件名    | 事件信息                                   | 输出参数          | 输入参数 | 异常等级 |
-| ------------- | ------------------------------------------ | ----------------- | -------- | -------- |
-| tcp_oom       | TCP out of memory(%u).                     | P1: error count   | NA       | WARN     |
-| backlog_drops | TCP backlog queue drops(%u).               | P1: drops count   | [-D <>]  | WARN     |
-| filter_drops  | TCP filter drops(%u).                      | P1: drops count   | [-D <>]  | WARN     |
-| syn_srtt      | TCP connection establish timed out(%u us). | P1: syn rtt times | [-T <>]  | WARN     |
+| 异常事件名    | 事件信息                                                     | 输出参数          | 输入参数 | 异常等级 |
+| ------------- | ------------------------------------------------------------ | ----------------- | -------- | -------- |
+| tcp_oom       | TCP out of memory(%u).                                       | P1: error count   | NA       | WARN     |
+| backlog_drops | TCP backlog queue drops(%u).                                 | P1: drops count   | [-D <>]  | WARN     |
+| filter_drops  | TCP filter drops(%u).                                        | P1: drops count   | [-D <>]  | WARN     |
+| syn_srtt      | TCP connection establish timed out(%u us).                   | P1: syn rtt times | [-T <>]  | WARN     |
+| sk_drops      | Number of lost packets in the TCP protocol stack(%u).        | P1: drops count   | [-D <>]  | WARN     |
+| lost_out      | Number of lost segments estimated by TCP congestion(%u).     | P1: drops count   | [-D <>]  | WARN     |
+| sacked_out    | Number of out-of-order TCP packets (SACK) or number of repeated TCP ACKs (NO SACK)(%u). | P1: drops count   | [-D <>]  | WARN     |
+| rcv_wnd       | TCP zero receive windows.                                    | NA                | NA       | WARN     |
+| snd_wnd       | TCP zero send windows.                                       | NA                | NA       | WARN     |
+| avl_snd_wnd   | TCP zero available send windows.                             | NA                | NA       | WARN     |
 
 > 注：输入参数为NA表示不需要外部输入阈值参数，内部实现是根据指标值是否为0判断异常与否。
 

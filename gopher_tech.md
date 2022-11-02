@@ -23,8 +23,9 @@
 | rcv_space           | tcp_rate    | Gauge        |                    |      | Current   receive buffer size.                               |
 | notsent_bytes       | tcp_windows | Gauge        | bytes              |      | Number   of bytes not sent currently.                        |
 | notack_bytes        | tcp_windows | Gauge        | bytes              |      | Number   of bytes not ack currently.                         |
-| snd_wnd             | tcp_windows | Gauge        |                    |      | Size   of TCP send window.                                   |
-| rcv_wnd             | tcp_windows | Gauge        |                    |      | Size   of TCP receive window.                                |
+| snd_wnd             | tcp_windows | Gauge        |                    |      | Size of TCP send window.                                     |
+| rcv_wnd             | tcp_windows | Gauge        |                    |      | Size of TCP receive window.                                  |
+| avl_snd_wnd         | tcp_windows | Gauge        |                    |      | Size of TCP available send window.                           |
 | delivery_rate       | tcp_rate    | Gauge        |                    |      | Current   transmit rate (multiple different from the actual value). |
 | busy_time           | tcp_rate    | Gauge        |                    |      | Time   (jiffies) busy sending data.                          |
 | rwnd_limited        | tcp_rate    | Gauge        |                    |      | Time   (jiffies) limited by receive window.                  |
@@ -45,9 +46,9 @@
 | segs_out            | tcp_tx_rx   | Counter      | segs               |      | total   number of segments sent                              |
 | retran_packets      | tcp_abn     | Gauge        |                    | Y    | total number of retrans                                      |
 | backlog_drops       | tcp_abn     | Gauge        |                    | Y    | drops   caused by backlog queue full                         |
-| sk_drops            | tcp_abn     | Counter      |                    | Y    | tcp   drop counter                                           |
-| lost_out            | tcp_abn     | Gauge        |                    |      | tcp   lost counter                                           |
-| sacked_out          | tcp_abn     | Gauge        |                    |      | tcp   sacked out counter                                     |
+| sk_drops            | tcp_abn     | Counter      |                    | Y    | Number of lost packets in the TCP protocol stack             |
+| lost_out            | tcp_abn     | Gauge        | segs               |      | Number of lost segments estimated by TCP congestion          |
+| sacked_out          | tcp_abn     | Gauge        | segs               |      | Number of out-of-order TCP packets (SACK) or number of repeated TCP ACKs (NO SACK) |
 | filter_drops        | tcp_abn     | Gauge        |                    |      | drops   caused by socket filter                              |
 | tmout_count         | tcp_abn     | Gauge        |                    |      | counter   of tcp link timeout                                |
 | snd_buf_limit_count | tcp_abn     | Gauge        |                    |      | counter   of limits when allocate wmem                       |
