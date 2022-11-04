@@ -423,6 +423,18 @@
 | udp_indata_grams  | system_udp | gauge        | segs |      | UDP接收包量         |
 | udp_outdata_grams | system_udp | gauge        | segs |      | UDP发送包量         |
 
+# Host
+
+| metrics_name | table_name | metrics_type | unit | KPI  | metrics description              |
+| ------------ | ---------- | ------------ | ---- | ---- | -------------------------------- |
+| os_version   |            | key          |      |      | 操作系统版本信息                 |
+| hostname     | system_os  | label        |      |      | 主机名                           |
+| kversion     | system_os  | label        |      |      | 内核版本信息                     |
+| cpu_num      | system_os  | label        |      |      | CPU核数                          |
+| memory_MB    | system_os  | label        |      |      | 内存总量(MB)                     |
+| ip_addr      | system_os  | label        |      |      | 所有的IP地址                     |
+| value        | system_os  | gauge        |      |      | 一个固定值作为metric，无实际意义 |
+
 # Dnsmasq（entity_name：dnsmasq_link）
 
 | metrics_name | table_name   | metrics_type | unit | KPI  | metrics description |
