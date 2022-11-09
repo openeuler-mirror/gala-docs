@@ -1,63 +1,63 @@
 # TCP（entity_name：tcp_link）
 
-| metrics_name        | table_name  | metrics_type | unit               | KPI  | metrics description                                          |
-| ------------------- | ----------- | ------------ | ------------------ | ---- | ------------------------------------------------------------ |
-| tgid                |             | key          |                    |      | 进程ID                                                       |
-| role                |             | key          |                    |      | 客户端/服务端                                                |
-| client_ip           |             | key          |                    |      | 客户端：本地IP；服务端：对端IP                               |
-| server_ip           |             | key          |                    |      | 客户端：对端IP；服务端：本地IP                               |
-| client_port         |             | key          |                    |      | 客户端：本地端口；服务端：对端端口                           |
-| server_port         |             | key          |                    |      | 客户端：对端端口；服务端：本地端口                           |
-| protocol            |             | key          |                    |      | 协议族（IPv4、IPv6）                                         |
-| rx_bytes            | tcp_tx_rx   | Gauge        | bytes              | Y    | rx   bytes                                                   |
-| tx_bytes            | tcp_tx_rx   | Gauge        | bytes              | Y    | tx   bytes                                                   |
-| rto                 | tcp_rate    | Gauge        |                    |      | Retransmission   timeOut(us)                                 |
-| ato                 | tcp_rate    | Gauge        |                    |      | Estimated   value of delayed ACK(us)                         |
-| srtt                | tcp_rtt     | Gauge        | us                 | Y    | Smoothed   Round Trip Time(us).                              |
-| snd_ssthresh        | tcp_rate    | Gauge        |                    |      | Slow   start threshold for congestion control.               |
-| rcv_ssthresh        | tcp_rate    | Gauge        |                    |      | Current   receive window size.                               |
-| snd_cwnd            | tcp_windows | Gauge        |                    |      | Congestion   Control Window Size.                            |
-| advmss              | tcp_rate    | Gauge        |                    |      | Local   MSS upper limit.                                     |
-| reordering          | tcp_windows | Gauge        |                    |      | Segments   to be reordered.                                  |
-| rcv_rtt             | tcp_rtt     | Gauge        | us                 |      | Receive   end RTT (unidirectional measurement).              |
-| rcv_space           | tcp_rate    | Gauge        |                    |      | Current   receive buffer size.                               |
-| notsent_bytes       | tcp_windows | Gauge        | bytes              |      | Number   of bytes not sent currently.                        |
-| notack_bytes        | tcp_windows | Gauge        | bytes              |      | Number   of bytes not ack currently.                         |
-| snd_wnd             | tcp_windows | Gauge        |                    |      | Size of TCP send window.                                     |
-| rcv_wnd             | tcp_windows | Gauge        |                    |      | Size of TCP receive window.                                  |
-| avl_snd_wnd         | tcp_windows | Gauge        |                    |      | Size of TCP available send window.                           |
-| delivery_rate       | tcp_rate    | Gauge        |                    |      | Current   transmit rate (multiple different from the actual value). |
-| busy_time           | tcp_rate    | Gauge        |                    |      | Time   (jiffies) busy sending data.                          |
-| rwnd_limited        | tcp_rate    | Gauge        |                    |      | Time   (jiffies) limited by receive window.                  |
-| sndbuf_limited      | tcp_rate    | Gauge        |                    |      | Time   (jiffies) limited by send buffer.                     |
-| pacing_rate         | tcp_rate    | Gauge        | bytes   per second |      | TCP   pacing rate, bytes per second                          |
-| max_pacing_rate     | tcp_rate    | Gauge        | bytes   per second |      | MAX   TCP pacing rate, bytes per second                      |
-| sk_err_que_size     | tcp_sockbuf | Gauge        |                    |      | Size   of error queue in sock.                               |
-| sk_rcv_que_size     | tcp_sockbuf | Gauge        |                    |      | Size   of receive queue in sock.                             |
-| sk_wri_que_size     | tcp_sockbuf | Gauge        |                    |      | Size   of write queue in sock.                               |
-| syn_srtt            | tcp_srtt    | Gauge        | us                 | Y    | RTT   of syn packet(us).                                     |
-| sk_backlog_size     | tcp_sockbuf | Gauge        |                    |      | Length of the queue used by the receive buffer.              |
-| sk_omem_size        | tcp_sockbuf | Gauge        | bytes              |      | Memory used by other caches.                                 |
-| sk_forward_size     | tcp_sockbuf | Gauge        | bytes              |      | Size of the pre-allocated memory of the sending cache.       |
-| sk_wmem_size        | tcp_sockbuf | Gauge        | bytes              |      | Used memory size of the sending cache.                       |
-| sk_rcvbuf           | tcp_sockbuf | Gauge        | bytes              |      | Byte length of the RX buffer.                                |
-| sk_sndbuf           | tcp_sockbuf | Gauge        | bytes              |      | Byte length of the TX buffer.                                |
-| segs_in             | tcp_tx_rx   | Counter      | segs               |      | total   number of segments received                          |
-| segs_out            | tcp_tx_rx   | Counter      | segs               |      | total   number of segments sent                              |
-| retran_packets      | tcp_abn     | Gauge        |                    | Y    | total number of retrans                                      |
-| backlog_drops       | tcp_abn     | Gauge        |                    | Y    | drops   caused by backlog queue full                         |
-| sk_drops            | tcp_abn     | Counter      |                    | Y    | Number of lost packets in the TCP protocol stack             |
-| lost_out            | tcp_abn     | Gauge        | segs               |      | Number of lost segments estimated by TCP congestion          |
-| sacked_out          | tcp_abn     | Gauge        | segs               |      | Number of out-of-order TCP packets (SACK) or number of repeated TCP ACKs (NO SACK) |
-| filter_drops        | tcp_abn     | Gauge        |                    |      | drops   caused by socket filter                              |
-| tmout_count         | tcp_abn     | Gauge        |                    |      | counter   of tcp link timeout                                |
-| snd_buf_limit_count | tcp_abn     | Gauge        |                    |      | counter   of limits when allocate wmem                       |
-| rmem_scheduls       | tcp_abn     | Gauge        |                    |      | rmem   is not enough                                         |
-| tcp_oom             | tcp_abn     | Gauge        |                    |      | tcp   out of memory                                          |
-| send_rsts           | tcp_abn     | Gauge        |                    |      | send_rsts                                                    |
-| receive_rsts        | tcp_abn     | Gauge        |                    |      | receive_rsts                                                 |
-| sk_err              | tcp_abn     | Gauge        |                    |      | sk_err                                                       |
-| sk_err_soft         | tcp_abn     | Gauge        |                    |      | sk_err_soft                                                  |
+| metrics_name        | table_name        | metrics_type | unit               | KPI  | metrics description                                          |
+| ------------------- | ----------------- | ------------ | ------------------ | ---- | ------------------------------------------------------------ |
+| tgid                |                   | key          |                    |      | 进程ID                                                       |
+| role                |                   | key          |                    |      | 客户端/服务端                                                |
+| client_ip           |                   | key          |                    |      | 客户端：本地IP；服务端：对端IP                               |
+| server_ip           |                   | key          |                    |      | 客户端：对端IP；服务端：本地IP                               |
+| client_port         |                   | key          |                    |      | 客户端：本地端口；服务端：对端端口                           |
+| server_port         |                   | key          |                    |      | 客户端：对端端口；服务端：本地端口                           |
+| protocol            |                   | key          |                    |      | 协议族（IPv4、IPv6）                                         |
+| rx_bytes            | tcp_tx_rx(0x8)    | Gauge        | bytes              | Y    | rx   bytes                                                   |
+| tx_bytes            | tcp_tx_rx(0x8)    | Gauge        | bytes              | Y    | tx   bytes                                                   |
+| rto                 | tcp_rate(0x20)    | Gauge        |                    |      | Retransmission   timeOut(us)                                 |
+| ato                 | tcp_rate(0x20)    | Gauge        |                    |      | Estimated   value of delayed ACK(us)                         |
+| srtt                | tcp_rtt(0x4)      | Gauge        | us                 | Y    | Smoothed   Round Trip Time(us).                              |
+| snd_ssthresh        | tcp_rate(0x20)    | Gauge        |                    |      | Slow   start threshold for congestion control.               |
+| rcv_ssthresh        | tcp_rate(0x20)    | Gauge        |                    |      | Current   receive window size.                               |
+| snd_cwnd            | tcp_windows(0x2)  | Gauge        |                    |      | Congestion   Control Window Size.                            |
+| advmss              | tcp_rate(0x20)    | Gauge        |                    |      | Local   MSS upper limit.                                     |
+| reordering          | tcp_windows(0x2)  | Gauge        |                    |      | Segments   to be reordered.                                  |
+| rcv_rtt             | tcp_rtt(0x4)      | Gauge        | us                 |      | Receive   end RTT (unidirectional measurement).              |
+| rcv_space           | tcp_rate(0x20)    | Gauge        |                    |      | Current   receive buffer size.                               |
+| notsent_bytes       | tcp_windows(0x2)  | Gauge        | bytes              |      | Number   of bytes not sent currently.                        |
+| notack_bytes        | tcp_windows(0x2)  | Gauge        | bytes              |      | Number   of bytes not ack currently.                         |
+| snd_wnd             | tcp_windows(0x2)  | Gauge        |                    |      | Size of TCP send window.                                     |
+| rcv_wnd             | tcp_windows(0x2)  | Gauge        |                    |      | Size of TCP receive window.                                  |
+| avl_snd_wnd         | tcp_windows(0x2)  | Gauge        |                    |      | Size of TCP available send window.                           |
+| delivery_rate       | tcp_rate(0x20)    | Gauge        |                    |      | Current   transmit rate (multiple different from the actual value). |
+| busy_time           | tcp_rate(0x20)    | Gauge        |                    |      | Time   (jiffies) busy sending data.                          |
+| rwnd_limited        | tcp_rate(0x20)    | Gauge        |                    |      | Time   (jiffies) limited by receive window.                  |
+| sndbuf_limited      | tcp_rate(0x20)    | Gauge        |                    |      | Time   (jiffies) limited by send buffer.                     |
+| pacing_rate         | tcp_rate(0x20)    | Gauge        | bytes   per second |      | TCP   pacing rate, bytes per second                          |
+| max_pacing_rate     | tcp_rate(0x20)    | Gauge        | bytes   per second |      | MAX   TCP pacing rate, bytes per second                      |
+| sk_err_que_size     | tcp_sockbuf(0x10) | Gauge        |                    |      | Size   of error queue in sock.                               |
+| sk_rcv_que_size     | tcp_sockbuf(0x10) | Gauge        |                    |      | Size   of receive queue in sock.                             |
+| sk_wri_que_size     | tcp_sockbuf(0x10) | Gauge        |                    |      | Size   of write queue in sock.                               |
+| syn_srtt            | tcp_srtt(0x40)    | Gauge        | us                 | Y    | RTT   of syn packet(us).                                     |
+| sk_backlog_size     | tcp_sockbuf(0x10) | Gauge        |                    |      | Length of the queue used by the receive buffer.              |
+| sk_omem_size        | tcp_sockbuf(0x10) | Gauge        | bytes              |      | Memory used by other caches.                                 |
+| sk_forward_size     | tcp_sockbuf(0x10) | Gauge        | bytes              |      | Size of the pre-allocated memory of the sending cache.       |
+| sk_wmem_size        | tcp_sockbuf(0x10) | Gauge        | bytes              |      | Used memory size of the sending cache.                       |
+| sk_rcvbuf           | tcp_sockbuf(0x10) | Gauge        | bytes              |      | Byte length of the RX buffer.                                |
+| sk_sndbuf           | tcp_sockbuf(0x10) | Gauge        | bytes              |      | Byte length of the TX buffer.                                |
+| segs_in             | tcp_tx_rx(0x8)    | Counter      | segs               |      | total   number of segments received                          |
+| segs_out            | tcp_tx_rx(0x8)    | Counter      | segs               |      | total   number of segments sent                              |
+| retran_packets      | tcp_abn(0x01)     | Gauge        |                    | Y    | total number of retrans                                      |
+| backlog_drops       | tcp_abn(0x01)     | Gauge        |                    | Y    | drops   caused by backlog queue full                         |
+| sk_drops            | tcp_abn(0x01)     | Counter      |                    | Y    | Number of lost packets in the TCP protocol stack             |
+| lost_out            | tcp_abn(0x01)     | Gauge        | segs               |      | Number of lost segments estimated by TCP congestion          |
+| sacked_out          | tcp_abn(0x01)     | Gauge        | segs               |      | Number of out-of-order TCP packets (SACK) or number of repeated TCP ACKs (NO SACK) |
+| filter_drops        | tcp_abn(0x01)     | Gauge        |                    |      | drops   caused by socket filter                              |
+| tmout_count         | tcp_abn(0x01)     | Gauge        |                    |      | counter   of tcp link timeout                                |
+| snd_buf_limit_count | tcp_abn(0x01)     | Gauge        |                    |      | counter   of limits when allocate wmem                       |
+| rmem_scheduls       | tcp_abn(0x01)     | Gauge        |                    |      | rmem   is not enough                                         |
+| tcp_oom             | tcp_abn(0x01)     | Gauge        |                    |      | tcp   out of memory                                          |
+| send_rsts           | tcp_abn(0x01)     | Gauge        |                    |      | send_rsts                                                    |
+| receive_rsts        | tcp_abn(0x01)     | Gauge        |                    |      | receive_rsts                                                 |
+| sk_err              | tcp_abn(0x01)     | Gauge        |                    |      | sk_err                                                       |
+| sk_err_soft         | tcp_abn(0x01)     | Gauge        |                    |      | sk_err_soft                                                  |
 
 # ENDPOINT
 
@@ -112,109 +112,109 @@
 
 # Process（entity_name：proc）
 
-| metrics_name          | table_name         | metrics_type | unit | KPI  | metrics description                                          |
-| --------------------- | ------------------ | ------------ | ---- | ---- | ------------------------------------------------------------ |
-| tgid                  |                    | key          |      |      | 进程ID                                                       |
-| ppid                  | system_proc        | label        |      |      | 父进程ID                                                     |
-| pgid                  | system_proc        | label        |      |      | 进程组ID                                                     |
-| comm                  |                    | label        |      |      | 执行程序名称                                                 |
-| cmdline               | system_proc        | label        |      |      | 执行程序命令(包括配置)                                       |
-| container_id          | system_proc        | label        |      |      | 进程归属的容器实例ID（简写）                                 |
-| shared_dirty_size     | system_proc        | Gauge        |      |      | 进程共享属性的dirty   page size                              |
-| shared_clean_size     | system_proc        | Gauge        |      |      | 进程共享属性的clean   page size                              |
-| private_dirty_size    | system_proc        | Gauge        |      |      | 进程私有属性的dirty   page size                              |
-| private_clean_size    | system_proc        | Gauge        |      |      | 进程私有属性的clean   page size                              |
-| referenced_size       | system_proc        | Gauge        |      |      | 进程当前已引用的page   size                                  |
-| lazyfree_size         | system_proc        | Gauge        |      |      | 进程延迟释放内存的size                                       |
-| swap_data_size        | system_proc        | Gauge        |      |      | 进程swap区间数据size                                         |
-| swap_data_pss_size    | system_proc        | Gauge        |      |      | 进程物理内存swap区间数据size                                 |
-| fd_count              | system_proc        | Gauge        |      | Y    | 进程文件句柄                                                 |
-| fd_free_per           | system_proc        | Gauge        |      |      | 进程剩余FD资源占比%                                          |
-| utime_jiffies         | system_proc        | Gauge        |      | Y    | 进程用户运行时间                                             |
-| stime_jiffies         | system_proc        | Gauge        |      | Y    | 进程系统态运行时间                                           |
-| minor pagefault_count | system_proc        | Gauge        |      |      | 进程轻微pagefault次数（无需从磁盘拷贝）                      |
-| major pagefault_count | system_proc        | Gauge        |      |      | 进程严重pagefault次数（需从磁盘拷贝）                        |
-| vm_size               | system_proc        | Gauge        |      | Y    | 进程当前虚拟地址空间大小                                     |
-| pm_size               | system_proc        | Gauge        |      | Y    | 进程当前物理地址空间大小                                     |
-| rchar_bytes           | system_proc        | Gauge        |      |      | 进程系统调用至FS的读字节数                                   |
-| wchar_bytes           | system_proc        | Gauge        |      |      | 进程系统调用至FS的写字节数                                   |
-| syscr_count           | system_proc        | Gauge        |      |      | 进程read()/pread()执行次数                                   |
-| syscw_count           | system_proc        | Gauge        |      |      | 进程write()/pwrite()执行次数                                 |
-| read_bytes            | system_proc        | Gauge        |      |      | 进程实际从磁盘读取的字节数                                   |
-| write_bytes           | system_proc        | Gauge        |      |      | 进程实际从磁盘写入的字节数      （page cache情况下，该字段进表示设置dirty page的size） |
-| cancelled_write_bytes | system_proc        | Gauge        |      |      | 参考proc_write_bytes，因为存在page   cache      如果write操作结束后，又发生文件被删除事件，会导致diry page并未写入磁盘，所以存在取消写的字节数统计 |
-| ns_ext4_read          | proc_ext4          | Gauge        | ns   |      | ext4文件系统读操作时间，单位ns                               |
-| ns_ext4_write         | proc_ext4          | Gauge        | ns   |      | ext4文件系统写操作时间，单位ns                               |
-| ns_ext4_flush         | proc_ext4          | Gauge        | ns   |      | ext4文件系统flush操作时间，单位ns                            |
-| ns_ext4_open          | proc_ext4          | Gauge        | ns   |      | ext4文件系统open操作时间，单位ns                             |
-| ns_overlay_read       | proc_overlay       | Gauge        | ns   |      | overlayfs文件系统读操作时间，单位ns                          |
-| ns_overlay_write      | proc_overlay       | Gauge        | ns   |      | overlayfs文件系统写操作时间，单位ns                          |
-| ns_overlay_flush      | proc_overlay       | Gauge        | ns   |      | overlayfs文件系统flush操作时间，单位ns                       |
-| ns_overlay_open       | proc_overlay       | Gauge        | ns   |      | overlayfs文件系统open操作时间，单位ns                        |
-| ns_tmpfs_read         | proc_tmpfs         | Gauge        | ns   |      | tmpfs文件系统读操作时间，单位ns                              |
-| ns_tmpfs_write        | proc_tmpfs         | Gauge        | ns   |      | tmpfs文件系统写操作时间，单位ns                              |
-| ns_tmpfs_flush        | proc_tmpfs         | Gauge        | ns   |      | tmpfs文件系统flush操作时间，单位ns                           |
-| reclaim_ns            | proc_page          | Gauge        | ns   |      | 进程触发的page回收时间（执行SWAP操作），单位ns               |
-| access_pagecache      | proc_page          | Gauge        |      |      | 进程触发的页面访问次数                                       |
-| mark_buffer_dirty     | proc_page          | Gauge        |      |      | 进程触发的   page buffer置脏次数                             |
-| load_page_cache       | proc_page          | Gauge        |      |      | 进程触发的   page 加入page cache次数                         |
-| mark_page_dirty       | proc_page          | Gauge        |      |      | 进程触发的   page 置脏次数                                   |
-| ns_gethostname        | proc_dns           | Gauge        | ns   |      | 进程获取DNS域名对应的地址，单位ns                            |
-| gethostname_failed    | proc_dns           | Gauge        |      |      | 进程获取DNS域名失败次数                                      |
-| ns_mount              | proc_syscall_io    | Gauge        | ns   |      | 进程系统调用mount时长，单位ns                                |
-| ns_umount             | proc_syscall_io    | Gauge        | ns   |      | 进程系统调用umount时长，单位ns                               |
-| ns_read               | proc_syscall_io    | Gauge        | ns   |      | 进程系统调用read时长，单位ns                                 |
-| ns_write              | proc_syscall_io    | Gauge        | ns   |      | 进程系统调用write时长，单位ns                                |
-| ns_sendmsg            | proc_syscall_net   | Gauge        | ns   |      | 进程系统调用sendmsg时长，单位ns                              |
-| ns_recvmsg            | proc_syscall_net   | Gauge        | ns   |      | 进程系统调用recvmsg时长，单位ns                              |
-| ns_sched_yield        | proc_syscall_sched | Gauge        | ns   |      | 进程系统调用sched_yield时长，单位ns                          |
-| ns_futex              | proc_syscall_sched | Gauge        | ns   |      | 进程系统调用futex时长，单位ns                                |
-| ns_epoll_wait         | proc_syscall_sched | Gauge        | ns   |      | 进程系统调用epoll_wait时长，单位ns                           |
-| ns_epoll_pwait        | proc_syscall_sched | Gauge        | ns   |      | 进程系统调用epoll_pwait时长，单位ns                          |
-| ns_fork               | proc_syscall_fork  | Gauge        | ns   |      | 进程系统调用fork时长，单位ns                                 |
-| ns_vfork              | proc_syscall_fork  | Gauge        | ns   |      | 进程系统调用vfork时长，单位ns                                |
-| ns_clone              | proc_syscall_fork  | Gauge        | ns   |      | 进程系统调用clone时长，单位ns                                |
-| syscall_failed        | proc_syscall       | Gauge        |      | Y    | 进程系统调用失败次数                                         |
-| less_4k_io_read       | proc_io            | Gauge        |      |      | Number of small I/O (less than 4 KB) read operations at the BIO layer. |
-| less_4k_io_write      | proc_io            | Gauge        |      |      | Number of small I/O (less than 4 KB) write operations at the BIO layer. |
-| greater_4k_io_read    | proc_io            | Gauge        |      |      | Number of big I/O (greater than 4 KB) read operations at the BIO layer. |
-| greater_4k_io_write   | proc_io            | Gauge        |      |      | Number of big I/O (greater than 4 KB) write operations at the BIO layer. |
-| bio_latency           | proc_io            | Gauge        | us   |      | I/O operation delay at the BIO layer (unit: us).             |
-| bio_err_count         | proc_io            | Gauge        |      |      | Number of I/O operation failures at the BIO layer.           |
-| hang_count            | proc_io            | Gauge        |      |      | Number of process hang times.                                |
-| iowait_us             | proc_io            | Gauge        | us   |      | Process IO_wait time (unit: us).                             |
+| metrics_name          | table_name               | metrics_type | unit | KPI  | metrics description                                          |
+| --------------------- | ------------------------ | ------------ | ---- | ---- | ------------------------------------------------------------ |
+| tgid                  |                          | key          |      |      | 进程ID                                                       |
+| ppid                  | system_proc              | label        |      |      | 父进程ID                                                     |
+| pgid                  | system_proc              | label        |      |      | 进程组ID                                                     |
+| comm                  |                          | label        |      |      | 执行程序名称                                                 |
+| cmdline               | system_proc              | label        |      |      | 执行程序命令(包括配置)                                       |
+| container_id          | system_proc              | label        |      |      | 进程归属的容器实例ID（简写）                                 |
+| shared_dirty_size     | system_proc              | Gauge        |      |      | 进程共享属性的dirty   page size                              |
+| shared_clean_size     | system_proc              | Gauge        |      |      | 进程共享属性的clean   page size                              |
+| private_dirty_size    | system_proc              | Gauge        |      |      | 进程私有属性的dirty   page size                              |
+| private_clean_size    | system_proc              | Gauge        |      |      | 进程私有属性的clean   page size                              |
+| referenced_size       | system_proc              | Gauge        |      |      | 进程当前已引用的page   size                                  |
+| lazyfree_size         | system_proc              | Gauge        |      |      | 进程延迟释放内存的size                                       |
+| swap_data_size        | system_proc              | Gauge        |      |      | 进程swap区间数据size                                         |
+| swap_data_pss_size    | system_proc              | Gauge        |      |      | 进程物理内存swap区间数据size                                 |
+| fd_count              | system_proc              | Gauge        |      | Y    | 进程文件句柄                                                 |
+| fd_free_per           | system_proc              | Gauge        |      |      | 进程剩余FD资源占比%                                          |
+| utime_jiffies         | system_proc              | Gauge        |      | Y    | 进程用户运行时间                                             |
+| stime_jiffies         | system_proc              | Gauge        |      | Y    | 进程系统态运行时间                                           |
+| minor pagefault_count | system_proc              | Gauge        |      |      | 进程轻微pagefault次数（无需从磁盘拷贝）                      |
+| major pagefault_count | system_proc              | Gauge        |      |      | 进程严重pagefault次数（需从磁盘拷贝）                        |
+| vm_size               | system_proc              | Gauge        |      | Y    | 进程当前虚拟地址空间大小                                     |
+| pm_size               | system_proc              | Gauge        |      | Y    | 进程当前物理地址空间大小                                     |
+| rchar_bytes           | system_proc              | Gauge        |      |      | 进程系统调用至FS的读字节数                                   |
+| wchar_bytes           | system_proc              | Gauge        |      |      | 进程系统调用至FS的写字节数                                   |
+| syscr_count           | system_proc              | Gauge        |      |      | 进程read()/pread()执行次数                                   |
+| syscw_count           | system_proc              | Gauge        |      |      | 进程write()/pwrite()执行次数                                 |
+| read_bytes            | system_proc              | Gauge        |      |      | 进程实际从磁盘读取的字节数                                   |
+| write_bytes           | system_proc              | Gauge        |      |      | 进程实际从磁盘写入的字节数      （page cache情况下，该字段进表示设置dirty page的size） |
+| cancelled_write_bytes | system_proc              | Gauge        |      |      | 参考proc_write_bytes，因为存在page   cache      如果write操作结束后，又发生文件被删除事件，会导致diry page并未写入磁盘，所以存在取消写的字节数统计 |
+| ns_ext4_read          | proc_ext4(0x20)          | Gauge        | ns   |      | ext4文件系统读操作时间，单位ns                               |
+| ns_ext4_write         | proc_ext4(0x20)          | Gauge        | ns   |      | ext4文件系统写操作时间，单位ns                               |
+| ns_ext4_flush         | proc_ext4(0x20)          | Gauge        | ns   |      | ext4文件系统flush操作时间，单位ns                            |
+| ns_ext4_open          | proc_ext4(0x20)          | Gauge        | ns   |      | ext4文件系统open操作时间，单位ns                             |
+| ns_overlay_read       | proc_overlay(0x40)       | Gauge        | ns   |      | overlayfs文件系统读操作时间，单位ns                          |
+| ns_overlay_write      | proc_overlay(0x40)       | Gauge        | ns   |      | overlayfs文件系统写操作时间，单位ns                          |
+| ns_overlay_flush      | proc_overlay(0x40)       | Gauge        | ns   |      | overlayfs文件系统flush操作时间，单位ns                       |
+| ns_overlay_open       | proc_overlay(0x40)       | Gauge        | ns   |      | overlayfs文件系统open操作时间，单位ns                        |
+| ns_tmpfs_read         | proc_tmpfs(0x80)         | Gauge        | ns   |      | tmpfs文件系统读操作时间，单位ns                              |
+| ns_tmpfs_write        | proc_tmpfs(0x80)         | Gauge        | ns   |      | tmpfs文件系统写操作时间，单位ns                              |
+| ns_tmpfs_flush        | proc_tmpfs(0x80)         | Gauge        | ns   |      | tmpfs文件系统flush操作时间，单位ns                           |
+| reclaim_ns            | proc_page(0x100)         | Gauge        | ns   |      | 进程触发的page回收时间（执行SWAP操作），单位ns               |
+| access_pagecache      | proc_page(0x100)         | Gauge        |      |      | 进程触发的页面访问次数                                       |
+| mark_buffer_dirty     | proc_page(0x100)         | Gauge        |      |      | 进程触发的   page buffer置脏次数                             |
+| load_page_cache       | proc_page(0x100)         | Gauge        |      |      | 进程触发的   page 加入page cache次数                         |
+| mark_page_dirty       | proc_page(0x100)         | Gauge        |      |      | 进程触发的   page 置脏次数                                   |
+| ns_gethostname        | proc_dns(0x200)          | Gauge        | ns   |      | 进程获取DNS域名对应的地址，单位ns                            |
+| gethostname_failed    | proc_dns(0x200)          | Gauge        |      |      | 进程获取DNS域名失败次数                                      |
+| ns_mount              | proc_syscall_io(0x02)    | Gauge        | ns   |      | 进程系统调用mount时长，单位ns                                |
+| ns_umount             | proc_syscall_io(0x02)    | Gauge        | ns   |      | 进程系统调用umount时长，单位ns                               |
+| ns_read               | proc_syscall_io(0x02)    | Gauge        | ns   |      | 进程系统调用read时长，单位ns                                 |
+| ns_write              | proc_syscall_io(0x02)    | Gauge        | ns   |      | 进程系统调用write时长，单位ns                                |
+| ns_sendmsg            | proc_syscall_net(0x04)   | Gauge        | ns   |      | 进程系统调用sendmsg时长，单位ns                              |
+| ns_recvmsg            | proc_syscall_net(0x04)   | Gauge        | ns   |      | 进程系统调用recvmsg时长，单位ns                              |
+| ns_sched_yield        | proc_syscall_sched(0x08) | Gauge        | ns   |      | 进程系统调用sched_yield时长，单位ns                          |
+| ns_futex              | proc_syscall_sched(0x08) | Gauge        | ns   |      | 进程系统调用futex时长，单位ns                                |
+| ns_epoll_wait         | proc_syscall_sched(0x08) | Gauge        | ns   |      | 进程系统调用epoll_wait时长，单位ns                           |
+| ns_epoll_pwait        | proc_syscall_sched(0x08) | Gauge        | ns   |      | 进程系统调用epoll_pwait时长，单位ns                          |
+| ns_fork               | proc_syscall_fork(0x10)  | Gauge        | ns   |      | 进程系统调用fork时长，单位ns                                 |
+| ns_vfork              | proc_syscall_fork(0x10)  | Gauge        | ns   |      | 进程系统调用vfork时长，单位ns                                |
+| ns_clone              | proc_syscall_fork(0x10)  | Gauge        | ns   |      | 进程系统调用clone时长，单位ns                                |
+| syscall_failed        | proc_syscall (0x01)      | Gauge        |      | Y    | 进程系统调用失败次数                                         |
+| less_4k_io_read       | proc_io(0x400)           | Gauge        |      |      | Number of small I/O (less than 4 KB) read operations at the BIO layer. |
+| less_4k_io_write      | proc_io(0x400)           | Gauge        |      |      | Number of small I/O (less than 4 KB) write operations at the BIO layer. |
+| greater_4k_io_read    | proc_io(0x400)           | Gauge        |      |      | Number of big I/O (greater than 4 KB) read operations at the BIO layer. |
+| greater_4k_io_write   | proc_io(0x400)           | Gauge        |      |      | Number of big I/O (greater than 4 KB) write operations at the BIO layer. |
+| bio_latency           | proc_io(0x400)           | Gauge        | us   |      | I/O operation delay at the BIO layer (unit: us).             |
+| bio_err_count         | proc_io(0x400)           | Gauge        |      |      | Number of I/O operation failures at the BIO layer.           |
+| hang_count            | proc_io(0x400)           | Gauge        |      |      | Number of process hang times.                                |
+| iowait_us             | proc_io(0x400)           | Gauge        | us   |      | Process IO_wait time (unit: us).                             |
 
 # BLOCK
 
-| metrics_name          | table_name   | metrics_type | unit  | KPI  | metrics description             |
-| --------------------- | ------------ | ------------ | ----- | ---- | ------------------------------- |
-| major                 | block        | key          |       |      | 块对象编号                      |
-| first_minor           | block        | key          |       |      | 块对象编号                      |
-| blk_type              | block        | label        |       |      | 块对象类型（比如disk,   part）  |
-| blk_name              | block        | label        |       |      | 块对象名称                      |
-| disk_name             | block        | label        |       |      | 所属磁盘名称                    |
-| latency_req_max       | io_latency   | Gauge        | us    | Y    | block层I/O操作时延最大值        |
-| latency_req_last      | io_latency   | Gauge        | us    |      | block层I/O操作时延最近值        |
-| latency_req_sum       | io_latency   | Gauge        | us    |      | block层I/O操作时延总计值        |
-| latency_req_jitter    | io_latency   | Gauge        | us    |      | block层I/O操作时延抖动          |
-| count_latency_req     | io_latency   | Gauge        |       |      | block层I/O操作操作次数          |
-| latency_driver_max    | io_latency   | Gauge        | us    |      | 驱动层时延最大值                |
-| latency_driver_last   | io_latency   | Gauge        | us    |      | 驱动层时延最近值                |
-| latency_driver_sum    | io_latency   | Gauge        | us    |      | 驱动层时延最总计值              |
-| latency_driver_jitter | io_latency   | Gauge        | us    |      | 驱动层时延抖动                  |
-| count_latency_driver  | io_latency   | Gauge        |       |      | 驱动层操作次数                  |
-| latency_device_max    | io_latency   | Gauge        | us    | Y    | 设备层时延最大值                |
-| latency_device_last   | io_latency   | Gauge        | us    |      | 设备层时延最近值                |
-| latency_device_sum    | io_latency   | Gauge        | us    |      | 设备层时延最总计值              |
-| latency_device_jitter | io_latency   | Gauge        | us    |      | 设备层时延抖动                  |
-| count_latency_device  | io_latency   | Gauge        |       |      | 设备层操作次数                  |
-| err_code              | io_err       | Gauge        |       |      | block层I/O操作错误码            |
-| read_bytes            | io_count     | Gauge        | bytes |      | I/O操作读字节数                 |
-| write_bytes           | io_count     | Gauge        | bytes |      | I/O操作写字节数                 |
-| access_pagecache      | io_pagecache | Gauge        |       |      | Block页面访问次数               |
-| mark_buffer_dirty     | io_pagecache | Gauge        |       |      | Block   page buffer置脏次数     |
-| load_page_cache       | io_pagecache | Gauge        |       |      | Block   page 加入page cache次数 |
-| mark_page_dirty       | io_pagecache | Gauge        |       |      | Block   page 置脏次数           |
+| metrics_name          | table_name         | metrics_type | unit  | KPI  | metrics description             |
+| --------------------- | ------------------ | ------------ | ----- | ---- | ------------------------------- |
+| major                 | block              | key          |       |      | 块对象编号                      |
+| first_minor           | block              | key          |       |      | 块对象编号                      |
+| blk_type              | block              | label        |       |      | 块对象类型（比如disk,   part）  |
+| blk_name              | block              | label        |       |      | 块对象名称                      |
+| disk_name             | block              | label        |       |      | 所属磁盘名称                    |
+| latency_req_max       | io_latency(0x01)   | Gauge        | us    | Y    | block层I/O操作时延最大值        |
+| latency_req_last      | io_latency(0x01)   | Gauge        | us    |      | block层I/O操作时延最近值        |
+| latency_req_sum       | io_latency(0x01)   | Gauge        | us    |      | block层I/O操作时延总计值        |
+| latency_req_jitter    | io_latency(0x01)   | Gauge        | us    |      | block层I/O操作时延抖动          |
+| count_latency_req     | io_latency(0x01)   | Gauge        |       |      | block层I/O操作操作次数          |
+| latency_driver_max    | io_latency(0x01)   | Gauge        | us    |      | 驱动层时延最大值                |
+| latency_driver_last   | io_latency(0x01)   | Gauge        | us    |      | 驱动层时延最近值                |
+| latency_driver_sum    | io_latency(0x01)   | Gauge        | us    |      | 驱动层时延最总计值              |
+| latency_driver_jitter | io_latency(0x01)   | Gauge        | us    |      | 驱动层时延抖动                  |
+| count_latency_driver  | io_latency(0x01)   | Gauge        |       |      | 驱动层操作次数                  |
+| latency_device_max    | io_latency(0x01)   | Gauge        | us    | Y    | 设备层时延最大值                |
+| latency_device_last   | io_latency(0x01)   | Gauge        | us    |      | 设备层时延最近值                |
+| latency_device_sum    | io_latency(0x01)   | Gauge        | us    |      | 设备层时延最总计值              |
+| latency_device_jitter | io_latency(0x01)   | Gauge        | us    |      | 设备层时延抖动                  |
+| count_latency_device  | io_latency(0x01)   | Gauge        |       |      | 设备层操作次数                  |
+| err_code              | io_err(0x02)       | Gauge        |       |      | block层I/O操作错误码            |
+| read_bytes            | io_count(0x04)     | Gauge        | bytes |      | I/O操作读字节数                 |
+| write_bytes           | io_count(0x04)     | Gauge        | bytes |      | I/O操作写字节数                 |
+| access_pagecache      | io_pagecache(0x08) | Gauge        |       |      | Block页面访问次数               |
+| mark_buffer_dirty     | io_pagecache(0x08) | Gauge        |       |      | Block   page buffer置脏次数     |
+| load_page_cache       | io_pagecache(0x08) | Gauge        |       |      | Block   page 加入page cache次数 |
+| mark_page_dirty       | io_pagecache(0x08) | Gauge        |       |      | Block   page 置脏次数           |
 
 # Container
 
@@ -294,6 +294,8 @@
 
 # Postgre SLI
 
+支持版本：openssl 1.1.1
+
 | metrics_name | table_name    | metrics_type | unit | KPI  | metrics description              |
 | ------------ | ------------- | ------------ | ---- | ---- | -------------------------------- |
 | tgid         |               | key          |      |      | 进程ID                           |
@@ -308,6 +310,8 @@
 | max_rtt_nsec | pg_max_sli    | gauge        | ns   | Y    | Postgre协议采样周期内最大请求RTT |
 
 # HTTP SLI
+
+待补充支持的版本
 
 | metrics_name | table_name   | metrics_type | unit | KPI  | metrics description            |
 | ------------ | ------------ | ------------ | ---- | ---- | ------------------------------ |
@@ -446,6 +450,8 @@
 
 # LVS（entity_name：ipvs_link）
 
+支持的软件版本：>=EulerOS 2.9，且加载ipvs KO
+
 | metrics_name | table_name | metrics_type | unit | KPI  | metrics description |
 | ------------ | ---------- | ------------ | ---- | ---- | ------------------- |
 | client_ip    | ipvs_link  | key          |      |      | 客户端IP            |
@@ -459,6 +465,8 @@
 
 # Nginx（entity_name：nginx_link）
 
+支持的软件版本：1.12.1
+
 | metrics_name | table_name | metrics_type | unit | KPI  | metrics description |
 | ------------ | ---------- | ------------ | ---- | ---- | ------------------- |
 | client_ip    | nginx_link | key          |      |      | 客户端IP            |
@@ -470,6 +478,8 @@
 | link_count   | nginx_link | gauge        |      |      | 连接数              |
 
 # Haproxy（entity_name：haproxy_link）
+
+支持的软件版本：2.5-dev0
 
 | metrics_name | table_name   | metrics_type | unit | KPI  | metrics description |
 | ------------ | ------------ | ------------ | ---- | ---- | ------------------- |
