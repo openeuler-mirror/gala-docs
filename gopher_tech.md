@@ -514,3 +514,15 @@
 | jvm_threads_current           | jvm          | gauge        |       |      | 并行线程数                    |
 | jvm_threads_peak              | jvm          | gauge        |       |      | 并行线程峰值                  |
 | jvm_threads_deadlocked        | jvm          | gauge        |       |      | 死锁线程数                    |  
+
+# kafka (entity_name: kafka)
+
+| metrics_name                  | table_name   | metrics_type | unit  | KPI  | metrics description           |
+| ----------------------------- | ------------ | ------------ | ----- | ---- | ----------------------------- |
+| msg_type                      | kafkaprobe   | key          |       |      | 访问类型，producer或consumer                         |
+| client_ip                     | kafkaprobe   | key          |       |      | 客户端IP                                             |
+| client_port                   | kafkaprobe   | key          |       |      | 客户端port                                           |
+| num                           | kafkaprobe   | gauge        |       |      | 在一次采样周期中producer发布或consumer消费的消息数量    |
+| topic                         | kafkaprobe   | key          |       |      | 消息的topic                                          |
+| server_ip                     | kafkaprobe   | key          |       |      | kafka server所在主机的网卡IP                         |
+| server_port                   | kafkaprobe   | key          |       |      | kafka server所绑定的端口号                           |
