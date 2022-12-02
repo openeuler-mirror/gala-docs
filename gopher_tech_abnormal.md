@@ -402,6 +402,8 @@ gala-gopher提供系统异常检测能力，支持用户在启动各个探针的
 | iowait_us          | Process(COMM:%s PID:%u) iowait %llu us.                      | P1: process name P2: process id P3: io-wait times            | [-T <>]  | WARN     |
 | hang_count         | Process(COMM:%s PID:%u) hang count %u.                       | P1: process name P2: process id P3: error count              | NA       | WARN     |
 | bio_err_count      | Process(COMM:%s PID:%u) bio error %u.                        | P1: process name P2: process id P3: error count              | NA       | WARN     |
+| sched_systime      | CPU %s sys-state.(CPU = %d, Comm = %s, PID = %u, Latency = %llums) |                                                              | NA       | WARN     |
+| sched_syscall      | COMM: %s syscall %s.(CPU = %d, PID = %u, SYSID = %u, Latency = %llums, Delay = %llums) |                                                              | NA       | WARN     |
 
 ### BLOCK
 

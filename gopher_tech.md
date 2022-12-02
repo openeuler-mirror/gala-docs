@@ -183,6 +183,8 @@
 | bio_err_count         | proc_io(0x400)           | Gauge        |      |      | Number of I/O operation failures at the BIO layer.           |
 | hang_count            | proc_io(0x400)           | Gauge        |      |      | Number of process hang times.                                |
 | iowait_us             | proc_io(0x400)           | Gauge        | us   |      | Process IO_wait time (unit: us).                             |
+| sched_systime         | sched_systime            | Gauge        | us   |      | Duration of the process in the system state due to scheduling delay. |
+| sched_syscall         | sched_syscall            | Gauge        | us   |      | Process syscall delay due to scheduling preemption.          |
 
 # BLOCK
 
