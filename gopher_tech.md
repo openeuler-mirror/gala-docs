@@ -165,6 +165,7 @@
 | ns_umount             | proc_syscall_io(0x02)    | Gauge        | ns   |      | 进程系统调用umount时长，单位ns                               |
 | ns_read               | proc_syscall_io(0x02)    | Gauge        | ns   |      | 进程系统调用read时长，单位ns                                 |
 | ns_write              | proc_syscall_io(0x02)    | Gauge        | ns   |      | 进程系统调用write时长，单位ns                                |
+| ns_fsync              | proc_syscall_io(0x02)    | Gauge        | ns   |      | 进程系统调用fsync时长，单位ns                                |
 | ns_sendmsg            | proc_syscall_net(0x04)   | Gauge        | ns   |      | 进程系统调用sendmsg时长，单位ns                              |
 | ns_recvmsg            | proc_syscall_net(0x04)   | Gauge        | ns   |      | 进程系统调用recvmsg时长，单位ns                              |
 | ns_sched_yield        | proc_syscall_sched(0x08) | Gauge        | ns   |      | 进程系统调用sched_yield时长，单位ns                          |
@@ -179,7 +180,7 @@
 | less_4k_io_write      | proc_io(0x400)           | Gauge        |      |      | Number of small I/O (less than 4 KB) write operations at the BIO layer. |
 | greater_4k_io_read    | proc_io(0x400)           | Gauge        |      |      | Number of big I/O (greater than 4 KB) read operations at the BIO layer. |
 | greater_4k_io_write   | proc_io(0x400)           | Gauge        |      |      | Number of big I/O (greater than 4 KB) write operations at the BIO layer. |
-| bio_latency           | proc_io(0x400)           | Gauge        | us   |      | I/O operation delay at the BIO layer (unit: us).             |
+| bio_latency           | proc_io(0x400)           | Gauge        | ns   |      | I/O operation delay at the BIO layer (unit: us).             |
 | bio_err_count         | proc_io(0x400)           | Gauge        |      |      | Number of I/O operation failures at the BIO layer.           |
 | hang_count            | proc_io(0x400)           | Gauge        |      |      | Number of process hang times.                                |
 | iowait_us             | proc_io(0x400)           | Gauge        | us   |      | Process IO_wait time (unit: us).                             |
@@ -373,13 +374,13 @@
 | rcu                  | system_cpu      | gauge        |         |      | RCU锁软中断次数                 |
 | timer                | system_cpu      | gauge        |         |      | 定时器软中断次数                |
 | sched                | system_cpu      | gauge        |         |      | 调度中断次数                    |
-| net_rx               | system_cpu      | gauge        | jiffies |      | 网卡收包中断次数                |
-| user_total_second    | system_cpu      | gauge        | jiffies |      | 用户态cpu占用时间（不包括nice）  |
-| nice_total_second    | system_cpu      | gauge        | jiffies |      | nice用户态cpu占用时间（低优先级） |
-| system_total_second  | system_cpu      | gauge        | jiffies |      | 内核态cpu占用时间               |
-| iowait_total_second  | system_cpu      | gauge        | jiffies |      | 等待I/O完成的时间               |
-| irq_total_second     | system_cpu      | gauge        | jiffies |      | 硬中断时间                      |
-| softirq_total_second | system_cpu      | gauge        | jiffies |      | 软中断时间                      |
+| net_rx               | system_cpu      | gauge        |  |      | 网卡收包中断次数                |
+| user_msec | system_cpu      | gauge        | ms |      | 用户态cpu占用时间（不包括nice）  |
+| nice_msec | system_cpu      | gauge        | ms |      | nice用户态cpu占用时间（低优先级） |
+| system_msec | system_cpu      | gauge        | ms |      | 内核态cpu占用时间               |
+| iowait_msec | system_cpu      | gauge        | ms |      | 等待I/O完成的时间               |
+| irq_msec | system_cpu      | gauge        | ms |      | 硬中断时间                      |
+| softirq_msec | system_cpu      | gauge        | ms |      | 软中断时间                      |
 | backlog_drops        | system_cpu      | gauge        |         |      | softnet_data队列满而丢弃报文数量 |
 | rps_count            | system_cpu      | gauge        |         |      | CPU收到的RPS次数                |
 | total_used_per       | system_cpu_util | gauge        | %       |      | CPU总利用率                     |
@@ -515,7 +516,7 @@
 | jvm_gc_avg_usage              | jvm          | gauge        |       |      | GC回收器的平均使用率           |
 | jvm_threads_current           | jvm          | gauge        |       |      | 并行线程数                    |
 | jvm_threads_peak              | jvm          | gauge        |       |      | 并行线程峰值                  |
-| jvm_threads_deadlocked        | jvm          | gauge        |       |      | 死锁线程数                    |  
+| jvm_threads_deadlocked        | jvm          | gauge        |       |      | 死锁线程数                    |
 
 # kafka (entity_name: kafka)
 
